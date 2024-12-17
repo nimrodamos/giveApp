@@ -8,7 +8,7 @@ const cors = require("cors");
 dotenv.config();
 
 const uri = process.env.MONGO_URI;
-
+console.log("aaa");
 const app = express();
 
 mongoose
