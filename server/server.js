@@ -10,6 +10,8 @@ dotenv.config();
 const uri = process.env.MONGO_URI;
 console.log("Aaa");
 console.log("Aaa");
+console.log("Aaa");
+console.log("Aaa");
 
 const app = express();
 mongoose
