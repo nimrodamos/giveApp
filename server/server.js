@@ -6,6 +6,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 
 dotenv.config();
+console.log("hello");
+
 
 const uri = process.env.MONGO_URI;
 
