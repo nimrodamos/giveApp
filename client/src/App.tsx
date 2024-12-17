@@ -5,5 +5,6 @@ function App() {
     </div>
   );
 }
+console.log("baba");
 
 export default App;
