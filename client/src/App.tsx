@@ -6,5 +6,9 @@ function App() {
   );
 }
 console.log("baba");
+console.log("baba");
+console.log("baba");
+console.log("baba");
+console.log("baba");
 
 export default App;
