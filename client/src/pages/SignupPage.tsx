@@ -1,6 +1,8 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { api } from "@/api";
+import { useUser } from "@/components/context/userContext";
 
 function SignupPage() {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ function SignupPage() {
     password: "",
   });
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,13 +21,21 @@ function SignupPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/users/register",
-        formData
+      const response = await api.post("users/register", formData);
+      console.log(formData);
+      const { email, password } = formData;
+      const res = await api.post(
+        "users/login",
+        { email, password },
+        { withCredentials: true }
       );
-      alert("User registered successfully!");
-      console.log(response.data);
-      navigate(-1);
+      setUser(res.data.user);
+      toast({
+        title: "Success",
+        description: "User registered successfully, welcome !",
+      });
+
+      navigate("/");
     } catch (err) {
       console.log(err);
       alert("Registration failed. Please try again.");
@@ -32,7 +43,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex text-black">
       {/* Left Section with Full-Screen Logo */}
       <div className="w-1/2 bg-background flex items-center justify-center">
         <img

@@ -1,15 +1,9 @@
 const express = require("express");
-const {
-  getTotalUsers,
-  getTotalDonations,
-  getProjectDonations,
-} = require("../controllers/analyticsController");
+const { getDashboardStats } = require("../controllers/analyticsController");
 
 const router = express.Router();
 
 // Define analytics routes
-router.get("/total-users", getTotalUsers);
-router.get("/total-donations", getTotalDonations);
-router.get("/project/:id", getProjectDonations);
+router.get("/stats", getDashboardStats);
 
 module.exports = router;

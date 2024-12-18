@@ -13,13 +13,25 @@ const createProject = async (req, res) => {
   }
 };
 
-// Get all projects
+// Get all projects with search query parameters
 const getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const { title, status, owner, category } = req.query;
+    const query = {};
+    if (title) {
+      query.title = { $regex: title, $options: "i" };
+    }
+    if (owner) {
+      query.owner = owner;
+    }
+    if (category) {
+      query.category = category;
+    }
+
+    const projects = await Project.find(query);
     res.send(projects);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({ error: "Error fetching projects", details: err });
   }
 };
 
