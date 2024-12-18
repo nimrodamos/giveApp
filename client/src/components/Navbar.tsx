@@ -21,6 +21,8 @@ import { AvatarImage, AvatarFallback } from "./ui/avatar";
 import { api } from "@/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import SearchBar from "./SearchBar";
+import { Project } from "@/types/projectTypes";
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -31,7 +33,6 @@ const UserMenu = () => {
       const response = await api.get("/users/logout", {
         withCredentials: true,
       });
-
       if (response.status === 200) {
         setUser(null);
         toast({
@@ -87,30 +88,35 @@ const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isLoggedIn, setUser } = useUser();
+  const [searchResults, setSearchResults] = useState<Project[]>([]);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const handleSearchResults = (results: Project[]) => {
+    setSearchResults(results);
+    if (results.length === 0) setSearchResults([]); // איפוס אם החיפוש ריק
+  };
+
+  const handleSelectResult = () => {
+    setSearchResults([]); // איפוס תוצאות אחרי בחירה
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await api.get("/users/me", {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          setUser(response.data);
-        }
+        const response = await api.get("/users/me", { withCredentials: true });
+        if (response.status === 200) setUser(response.data);
       } catch (err) {
         console.error("Error fetching user:", err);
       }
     };
-
     fetchUser();
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm ">
-      <div className="flex justify-between items-center p-4 ">
-        {/* לוגו */}
+    <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
+      <div className="flex justify-between items-center p-4">
+        {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110 mr-4"
@@ -118,12 +124,17 @@ const Navbar = () => {
           GiveApp
         </Link>
 
-        {/* תפריט */}
-        <ul className="flex items-center ">
+        {/* Search Bar */}
+        <div className="flex-1 mx-6">
+          <SearchBar onSearchResults={handleSearchResults} />
+        </div>
+
+        {/* Menu */}
+        <ul className="flex items-center space-x-4">
           <li>
             <a
               href="/projects"
-              className="relative font-bold hover:text-primary  px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               פרויקטים
             </a>
@@ -150,7 +161,7 @@ const Navbar = () => {
                 checked={theme === "dark"}
                 onCheckedChange={toggleTheme}
               />
-              <span className="text-sm text-muted-foreground ">
+              <span className="text-sm text-muted-foreground">
                 {theme === "light" ? <FiSun size={20} /> : <FiMoon size={20} />}
               </span>
             </div>
@@ -174,6 +185,31 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+
+      {/* Display Search Results */}
+      {searchResults.length > 0 && (
+        <div className="bg-card p-4 mt-2 rounded-lg shadow-lg">
+          <h3 className="text-lg font-semibold mb-2 text-primary">
+            תוצאות חיפוש:
+          </h3>
+          <ul>
+            {searchResults.map((project) => (
+              <Link
+                to={`/projects/${project._id}`}
+                state={{ project }}
+                key={project._id}
+                onClick={handleSelectResult}
+              >
+                <h4 className="font-bold text-primary mb-2">{project.title}</h4>
+                <p className="text-muted-foreground text-sm">
+                  {project.description}
+                </p>
+              </Link>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <LoginModal isOpen={isModalOpen} onClose={closeModal} />
     </nav>
   );
