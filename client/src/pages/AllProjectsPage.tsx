@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CardProject from "@/components/CardProject";
 
 // מבנה של Project
 interface Project {
@@ -30,19 +31,7 @@ const AllProjectsPage = () => {
   return (
     <div className="p-6">
       <h1 className="text-4xl font-bold mb-6">All Projects</h1>
-      <ul className="space-y-4">
-        {projects.map((project) => (
-          <li key={project._id} className="border-b pb-4">
-            <Link
-              to={`/projects/${project._id}`}
-              className="text-2xl text-blue-600 hover:underline"
-            >
-              {project.title}
-            </Link>
-            <p className="text-gray-600">{project.description}</p>
-          </li>
-        ))}
-      </ul>
+      <CardProject />
     </div>
   );
 };
