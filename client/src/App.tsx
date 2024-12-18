@@ -28,9 +28,9 @@ function App() {
         {/* דף פרופיל משתמש */}
         <Route path="/profile" element={<UserProfile />} />
         {/* דף אודות  */}
-        <Route path="/about" element={<AboutPage/>} />
-        
-        <Route path="/signup" element={<SignupPage/>} />
+        <Route path="/about" element={<AboutPage />} />
+
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </Router>
   );

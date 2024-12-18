@@ -4,6 +4,6 @@ export interface User {
   username: string;
   about?: string;
   city?: string;
-  created_at: string;
-  role: string;
+  created_at?: string;
+  role?: string;
 }
