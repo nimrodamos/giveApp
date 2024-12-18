@@ -18,7 +18,10 @@ const Navbar = () => {
     <nav className="bg-background text-foreground border-b border-border shadow-sm">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* לוגו */}
-        <Link to="/" className="text-2xl font-bold text-primary">
+        <Link
+          to="/"
+          className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110"
+        >
           GiveApp
         </Link>
 
@@ -68,9 +71,9 @@ const Navbar = () => {
                 <Button
                   variant="secondary"
                   onClick={openModal}
-                  className="border border-border bg-secondary text-foreground hover:bg-muted"
+                  className="border border-border bg-secondary text-foreground hover:bg-primary"
                 >
-                  Login
+                  כניסה
                 </Button>
               </PopoverTrigger>
             </Popover>
