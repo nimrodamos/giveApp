@@ -1,6 +1,5 @@
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { api } from "@/api";
 import { useUser } from "@/components/context/userContext";
