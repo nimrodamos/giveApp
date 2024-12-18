@@ -117,22 +117,22 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
-      <div className="container mx-auto flex justify-between items-center p-4">
+    <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm ">
+      <div className="flex justify-between items-center p-4 ">
         {/* לוגו */}
         <Link
           to="/"
-          className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110"
+          className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110 mr-4"
         >
           GiveApp
         </Link>
 
         {/* תפריט */}
-        <ul className="flex space-x-6 items-center">
+        <ul className="flex items-center ">
           <li>
             <a
               href="/projects"
-              className="relative font-bold hover:text-primary m-4 px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+              className="relative font-bold hover:text-primary  px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               פרויקטים
             </a>
