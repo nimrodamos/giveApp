@@ -1,29 +1,20 @@
-const express = require("express");
-const { json } = require("express");
-
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const express = require("express");
+
+const usersRoutes = require("./routes/usersRoutes");
+const projectsRoutes = require("./routes/projectsRoutes");
+const donationsRoutes = require("./routes/donationsRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 dotenv.config();
-console.log("hello");
 
-
+const PORT = 3000;
 const uri = process.env.MONGO_URI;
-
 const app = express();
-mongoose
-  .connect(uri)
-  .then(async () => {
-    console.log("Connected to database. Checking documents...");
-  })
-  .catch((error) => {
-    console.error(
-      "Error connecting to the database or running operations:",
-      error
-    );
-  });
 
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -31,4 +22,19 @@ app.use(
   })
 );
 
-app.use(json());
+app.use("/users", usersRoutes);
+app.use("/projects", projectsRoutes);
+app.use("/donations", donationsRoutes);
+app.use("/analytics", analyticsRoutes);
+
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log("Connected to database successfully.");
+    app.listen(PORT, () =>
+      console.log(`Server running on http://localhost:${PORT}`)
+    );
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database:", error);
+  });
