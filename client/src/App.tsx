@@ -5,6 +5,8 @@ import AllProjectsPage from "./pages/AllProjectsPage";
 import ProjectPage from "./pages/ProjectPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import UserProfile from "./pages/UserProfile";
+import AboutPage from "./pages/AboutPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
@@ -25,6 +27,10 @@ function App() {
 
         {/* דף פרופיל משתמש */}
         <Route path="/profile" element={<UserProfile />} />
+        {/* דף אודות  */}
+        <Route path="/aboutPage" element={<AboutPage/>} />
+        
+        <Route path="/SignupPage" element={<SignupPage/>} />
       </Routes>
     </Router>
   );
