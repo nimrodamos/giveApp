@@ -1,63 +1,56 @@
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import LoginModal from "./LoginModal";
+import { useTheme } from "./Theme-provider";
+import { Link } from "react-router-dom";
+import { FiSun, FiMoon } from "react-icons/fi";
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="bg-background text-foreground border-b border-border shadow-sm dark:bg-dark-background dark:text-dark-foreground dark:border-dark-border">
+    <nav className="bg-background text-foreground border-b border-border shadow-sm">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* לוגו */}
-        <div className="text-2xl font-bold text-primary dark:text-dark-primary">
+        <Link to="/" className="text-2xl font-bold text-primary">
           GiveApp
-        </div>
+        </Link>
 
         {/* תפריט */}
-        <ul className="flex space-x-6">
-          <li>
-            <a
-              href="/"
-              className="hover:text-primary dark:hover:text-dark-primary"
-            >
-              Home
-            </a>
-          </li>
+        <ul className="flex space-x-6 items-center">
           <li>
             <a
               href="/projects"
-              className="hover:text-primary dark:hover:text-dark-primary"
+              className="relative font-bold hover:text-primary m-4 px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
-              Projects
+              פרויקטים
             </a>
           </li>
           <li>
             <a
               href="/create"
-              className="hover:text-primary dark:hover:text-dark-primary"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
-              Create Project
+              להתחיל פרויקט
             </a>
           </li>
+          {/* Toggle Dark Mode */}
           <li>
-            <a
-              href="/aboutPage"
-              className="hover:text-primary dark:hover:text-dark-primary"
-            >
-              About Us
-            </a>
-          </li>
-          <li>
-            <a
-              href="/SignupPage"
-              className="hover:text-primary dark:hover:text-dark-primary"
-            >
-              Sign Up
-            </a>
+            <div className="flex items-center space-x-2 gap-2">
+              <Switch
+                checked={theme === "dark"}
+                onCheckedChange={toggleTheme}
+              />
+              <span className="text-sm text-muted-foreground ">
+                {theme === "light" ? <FiSun size={20} /> : <FiMoon size={20} />}
+              </span>
+            </div>
           </li>
 
           {/* כפתור Login */}
@@ -67,7 +60,7 @@ const Navbar = () => {
                 <Button
                   variant="secondary"
                   onClick={openModal}
-                  className="border border-border bg-secondary text-foreground hover:bg-muted dark:border-dark-border dark:bg-dark-secondary dark:text-dark-foreground dark:hover:bg-dark-muted"
+                  className="border border-border bg-secondary text-foreground hover:bg-muted"
                 >
                   Login
                 </Button>

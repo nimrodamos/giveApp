@@ -31,32 +31,47 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login User ]
-const loginUser = async (req, res) => {
+// Login User
+const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password)
+      return res
+        .status(400)
+        .json({ message: "username and password are required..." });
+    const storedUser = await User.findOne({ email: email });
+    console.log(storedUser);
+    if (!storedUser)
+      return res.status(400).json({ message: `could not find user ${email}` });
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).send({ message: "Invalid credentials" });
+    const isValid = bcrypt.compareSync(password, storedUser.password);
+    if (!isValid) {
+      return res.status(400).json({ message: "Invalid password..." });
     }
 
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
-      process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
-      }
+        user: {
+          email,
+          userId: storedUser._id,
+          role: storedUser.role || "user",
+        },
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
     );
-
-    res.status(200).send({ message: "Login successful", token });
-  } catch (err) {
-    res.status(500).send({ message: "Server error", error: err.message });
+    console.log("aaa");
+    res
+      .cookie("jwt", token, {
+        httpOnly: false,
+        secure: false,
+        sameSite: "strict",
+        maxAge: 3600000,
+      })
+      .status(200)
+      .json({ message: `User ${email} logged in successfully.`, token });
+  } catch (error) {
+    res.status(500).send(error);
   }
 };
 
