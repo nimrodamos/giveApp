@@ -13,7 +13,6 @@ const SearchBar = ({
   searchQuery,
   setSearchQuery,
   onSearchResults,
-  resetSearchQuery,
 }: SearchBarProps) => {
   const [isLoading, setIsLoading] = useState(false);
 

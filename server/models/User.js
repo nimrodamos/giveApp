@@ -8,6 +8,10 @@ const UserSchema = new mongoose.Schema(
     about: { type: String },
     city: { type: String },
     role: { type: String, default: "user" },
+    profilePic: {
+      type: String,
+      default: "../media/b3e0d1f1-62f6-4fe7-a150-d8358f2bc660.jpg",
+    },
   },
   {
     versionKey: false,
