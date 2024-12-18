@@ -20,9 +20,9 @@ const CardProject: React.FC<CardObjectProps> = ({ project }) => {
   const percentage = ((current_amount / goal) * 100).toFixed(0);
 
   return (
-    <Card className="space-y-4 flex flex-col justify-between">
+    <Card className="space-y-4 flex flex-col justify-between h-[520px]">
       <CardHeader className="flex gap-6 items-center">
-        <div className="w-full h-[200px] overflow-hidden rounded-t-xl">
+        <div className="w-full h-[200px] overflow-hidden">
           <img
             src={image}
             className="object-cover w-full h-full"
