@@ -6,6 +6,7 @@ import DonationForm from "@/components/DonationForm";
 import { useUser } from "@/components/context/userContext";
 import { Project } from "@/types/projectTypes";
 import { useToast } from "@/hooks/use-toast";
+import { api } from "@/api";
 
 const ProjectPage = () => {
   const location = useLocation();
@@ -40,14 +41,28 @@ const ProjectPage = () => {
     setSelectedAmount(null);
   };
 
-  const handleDonationSubmit = () => {
-    if (user) {
-      toast({
-        title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`,
-        description: "תודה רבה",
-      });
-    } else {
-      setShowDonationForm(true);
+  const handleDonationSubmit = async () => {
+    try {
+      console.log("Aaa");
+      if (user) {
+        const donation = {
+          user_id: user._id,
+          amount: donationAmount,
+          project_id: project._id,
+        };
+        const res = await api.post("donations", donation, {
+          withCredentials: true,
+        });
+        console.log(res.data);
+        toast({
+          title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`,
+          description: "תודה רבה",
+        });
+      } else {
+        setShowDonationForm(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
