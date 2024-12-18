@@ -47,7 +47,11 @@ const CarouselProject = () => {
               key={project._id}
               className=" sm:basis-1/2 md:basis-1/3 lg:basis-1/4 "
             >
-              <Link to={`/projects/${project._id}`}>
+              <Link
+                to={`/projects/${project._id}`}
+                state={{ project }}
+                key={project._id}
+              >
                 {/* כרטיס הפרויקט */}
                 <div className="shadow-md rounded-lg">
                   <CardProject project={project} />
