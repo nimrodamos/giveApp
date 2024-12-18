@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CardProject from "@/components/CardProject";
+import { useEffect } from "react";
 
 // מבנה של Project
 interface Project {
@@ -9,24 +10,9 @@ interface Project {
 }
 
 const AllProjectsPage = () => {
-  // דאטה דמיוני המדמה רשימת פרויקטים מה-Backend
-  const projects: Project[] = [
-    {
-      _id: "12345",
-      title: "Build a Community School",
-      description: "Providing education for underprivileged children.",
-    },
-    {
-      _id: "67890",
-      title: "Clean Water Initiative",
-      description: "Bringing clean water to remote villages.",
-    },
-    {
-      _id: "54321",
-      title: "Plant a Million Trees",
-      description: "Reforestation for a greener future.",
-    },
-  ];
+  useEffect(() => {
+    const fetchProjects = async () => {};
+  });
 
   return (
     <div className="p-6">

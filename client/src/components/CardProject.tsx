@@ -22,10 +22,8 @@ const CardProject = () => {
               step={1}
               className="w-full"
               aria-label="Money Collected"
-            >
-              <div className="slider-track"></div>{" "}
-              {/* Optional: Custom track styling */}
-            </Slider>{" "}
+              disabled
+            ></Slider>
           </CardDescription>
         </CardHeader>
         <CardContent className="h-full"></CardContent>
