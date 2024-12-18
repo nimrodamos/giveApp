@@ -10,7 +10,6 @@ function authUser(req, res, next) {
         token = credentials;
       }
     }
-    console.log(req.headers.cookie);
     if (!token && req.headers.cookie) {
       const cookies = cookie.parse(req.headers.cookie, {
         httpOnly: true,
