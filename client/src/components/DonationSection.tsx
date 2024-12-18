@@ -3,9 +3,9 @@ import { useUser } from "./context/userContext";
 
 interface DonationSectionProps {
   formRef: React.RefObject<HTMLDivElement>;
-  donationAmount: string;
-  selectedAmount: string | null;
-  onAmountClick: (amount: string) => void;
+  donationAmount: number;
+  selectedAmount: number | null;
+  onAmountClick: (amount: number) => void;
   onManualAmountChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
 }
@@ -19,6 +19,13 @@ const DonationSection = ({
   onSubmit,
 }: DonationSectionProps) => {
   const { isLoggedIn } = useUser();
+
+  // Function to handle amount click and convert to a number
+  const handleAmountClick = (amount: string) => {
+    const numericAmount = parseFloat(amount.replace("₪", "")); // Remove ₪ and convert to number
+    onAmountClick(numericAmount); // Call the onAmountClick with the numeric value
+  };
+
   return (
     <div
       className="bg-background p-6 rounded-lg shadow-md text-center"
@@ -30,9 +37,9 @@ const DonationSection = ({
           (amount) => (
             <div
               key={amount}
-              onClick={() => onAmountClick(amount)}
+              onClick={() => handleAmountClick(amount)} // Use the modified handler
               className={`border-2 rounded-full flex items-center justify-center p-3 cursor-pointer transition ${
-                selectedAmount === amount
+                selectedAmount === parseFloat(amount.replace("₪", "")) // Compare as number
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border hover:border-primary"
               }`}

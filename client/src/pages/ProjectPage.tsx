@@ -11,59 +11,74 @@ import { api } from "@/api";
 const ProjectPage = () => {
   const location = useLocation();
   const { project }: { project: Project } = location.state || {};
-
+  const [currentProject, setCurrentProject] = useState<Project>(project);
   const formRef = useRef<HTMLDivElement | null>(null);
-  const donationFormRef = useRef<HTMLDivElement | null>(null); // גלילה לטופס התרומה
-  const [donationAmount, setDonationAmount] = useState<string>("");
-  const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
+  const donationFormRef = useRef<HTMLDivElement | null>(null);
+  const [donationAmount, setDonationAmount] = useState<number>(0);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [showDonationForm, setShowDonationForm] = useState(false);
 
   const { user } = useUser();
   const { toast } = useToast();
 
-  // גלילה למיקום הטופס אם הוא נפתח
+  // Scroll to donation form if it is open
   useEffect(() => {
     if (showDonationForm) {
       donationFormRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [showDonationForm]);
 
-  const scrollToForm = () =>
-    formRef.current?.scrollIntoView({ behavior: "smooth" });
-
-  const handleAmountClick = (amount: string) => {
-    setDonationAmount(amount.replace("₪", ""));
+  // Handle amount click (set donation amount)
+  const handleAmountClick = (amount: number) => {
+    setDonationAmount(amount);
     setSelectedAmount(amount);
   };
 
+  // Handle manual amount change (ensure it's a number)
   const handleManualAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDonationAmount(e.target.value);
+    const numericAmount = parseFloat(e.target.value); // Convert to number
+    setDonationAmount(numericAmount);
     setSelectedAmount(null);
   };
 
-  const handleDonationSubmit = async () => {
+  const submitDonation = async () => {
     try {
-      console.log("Aaa");
-      if (user) {
-        const donation = {
-          user_id: user._id,
-          amount: donationAmount,
-          project_id: project._id,
-        };
-        const res = await api.post("donations", donation, {
-          withCredentials: true,
-        });
-        console.log(res.data);
-        toast({
-          title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`,
-          description: "תודה רבה",
-        });
-      } else {
-        setShowDonationForm(true);
-      }
+      const donation = {
+        user_id: user ? user._id : null,
+        amount: donationAmount,
+        project_id: project._id,
+      };
+
+      await api.post("donations", donation, {
+        withCredentials: true,
+      });
+
+      const updatedProject = {
+        ...currentProject,
+        current_amount: currentProject.current_amount + donationAmount,
+      };
+
+      setCurrentProject(updatedProject);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      toast({
+        title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`,
+        description: "תודה רבה",
+      });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // Handle donation form submission
+  const handleDonationSubmit = async () => {
+    if (!user) {
+      setShowDonationForm(true);
+      return;
+    }
+    submitDonation();
   };
 
   if (!project)
@@ -71,10 +86,15 @@ const ProjectPage = () => {
 
   return (
     <div className="p-6 container mx-auto space-y-8">
-      {/* פרטי הפרויקט */}
-      <ProjectDetails project={project} onDonateClick={scrollToForm} />
+      {/* Project details */}
+      <ProjectDetails
+        project={currentProject}
+        onDonateClick={() =>
+          formRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
 
-      {/* חלק של התרומה */}
+      {/* Donation section */}
       <DonationSection
         formRef={formRef}
         donationAmount={donationAmount}
@@ -84,7 +104,7 @@ const ProjectPage = () => {
         onSubmit={handleDonationSubmit}
       />
 
-      {/* טופס התרומה אם המשתמש לא מחובר */}
+      {/* Donation form if user is not logged in */}
       {showDonationForm && (
         <div
           ref={donationFormRef}
@@ -94,19 +114,8 @@ const ProjectPage = () => {
             מלאו את פרטי התרומה
           </h3>
           <DonationForm
-            onSuccess={() => {
-              setShowDonationForm(false);
-              toast({
-                title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${
-                  donationAmount || "0"
-                }`,
-                description: "תודה רבה",
-              });
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            }}
+            onSuccess={() => setShowDonationForm(false)}
+            submitDonation={submitDonation}
           />
         </div>
       )}

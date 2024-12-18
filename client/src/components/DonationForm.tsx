@@ -4,9 +4,10 @@ import { useUser } from "@/components/context/userContext";
 
 interface DonationFormProps {
   onSuccess: () => void; // פונקציה שתופעל לאחר השליחה המוצלחת
+  submitDonation: () => Promise<void>;
 }
 
-const DonationForm = ({ onSuccess }: DonationFormProps) => {
+const DonationForm = ({ onSuccess, submitDonation }: DonationFormProps) => {
   const { user } = useUser();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -37,8 +38,8 @@ const DonationForm = ({ onSuccess }: DonationFormProps) => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      console.log("Form Submitted:", formData);
       onSuccess();
+      submitDonation();
     }
   };
 

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { api } from "@/api";
-import { Project } from "@/types/projectTypes";
+import { useEffect } from "react";
+import { useProject } from "./context/projectContext";
 import CardProject from "@/components/CardProject";
 import {
   Carousel,
@@ -12,47 +11,38 @@ import {
 import { Link } from "react-router-dom";
 
 const CarouselProject = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const { projects, fetchProjects, isLoading } = useProject();
 
-  // Fetch projects from API
+  // Fetch projects from context
   useEffect(() => {
-    const fetchProjects = async () => {
+    // Fetch projects on mount
+    const fetchData = async () => {
       try {
-        const res = await api.get("projects", { withCredentials: true });
-        setProjects(res.data);
+        await fetchProjects();
       } catch (error) {
-        console.error("Failed to fetch projects", error);
+        console.error("Failed to fetch projects:", error);
       }
     };
-    fetchProjects();
-  }, []);
+    fetchData();
+  }, [fetchProjects]); // Ensure fetchProjects doesn't change on each render
 
   return (
-    <div className="relative p-6  rounded-lg shadow-lg max-w-7xl mx-auto">
-      {/* כותרת הקרוסלה */}
+    <div className="relative p-6 rounded-lg shadow-lg max-w-7xl mx-auto">
+      {/* Carousel Title */}
       <h2 className="text-xl font-bold text-right mb-2 text-primary">
         ✨ פרויקטים נבחרים ✨
       </h2>
 
-      {/* הקרוסלה */}
-      <Carousel
-        opts={{
-          direction: "rtl",
-          loop: true,
-        }}
-      >
+      {/* Carousel */}
+      <Carousel opts={{ direction: "rtl", loop: true }}>
         <CarouselContent>
           {projects.map((project) => (
             <CarouselItem
               key={project._id}
-              className=" sm:basis-1/2 md:basis-1/3 lg:basis-1/4 "
+              className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
-              <Link
-                to={`/projects/${project._id}`}
-                state={{ project }}
-                key={project._id}
-              >
-                {/* כרטיס הפרויקט */}
+              <Link to={`/projects/${project._id}`} state={{ project }}>
+                {/* Project Card */}
                 <div className="shadow-md rounded-lg">
                   <CardProject project={project} />
                 </div>
@@ -61,7 +51,7 @@ const CarouselProject = () => {
           ))}
         </CarouselContent>
 
-        {/* כפתורי ניווט */}
+        {/* Navigation Buttons */}
         <CarouselPrevious className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-primary text-white rounded-full p-2 hover:bg-opacity-80 transition" />
         <CarouselNext className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-primary text-white rounded-full p-2 hover:bg-opacity-80 transition" />
       </Carousel>
