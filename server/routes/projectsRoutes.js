@@ -6,14 +6,13 @@ const {
   updateProjectById,
   deleteProjectById,
 } = require("../controllers/projectController");
-const auth = require("../middleware/authentication");
-
+const { authUser } = require("../middleware/authentication");
 const router = express.Router();
 
-router.post("/", auth, createProject);
+router.post("/", authUser, createProject);
 router.get("/", getAllProjects);
 router.get("/:id", getProjectById);
-router.put("/:id", auth, updateProjectById);
-router.delete("/:id", auth, deleteProjectById);
+router.put("/:id", authUser, updateProjectById);
+router.delete("/:id", authUser, deleteProjectById);
 
 module.exports = router;
