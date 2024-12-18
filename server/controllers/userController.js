@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -63,7 +64,7 @@ const loginUser = async (req, res, next) => {
     console.log("aaa");
     res
       .cookie("jwt", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: false,
         sameSite: "strict",
         maxAge: 3600000,
@@ -75,15 +76,41 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+// Logout user
+const logoutUser = (req, res) => {
+  try {
+    res
+      .clearCookie("jwt", {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({ message: "User logged out successfully." });
+  } catch (error) {
+    res.status(500).json({
+      message: "Logout failed due to a server error.",
+      error,
+    });
+  }
+};
+
 // Get user by ID
 const getUserById = async (req, res) => {
-  console.log("aaaa");
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: "Invalid User ID" });
+  }
+
   try {
-    const user = await User.findById(req.params.id);
-    if (user) return res.send(user);
+    const user = await User.findById(id);
+    if (user) {
+      return res.send(user);
+    }
     res.status(404).send({ message: "User not found" });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({ message: "Server error", error: err.message });
   }
 };
 
@@ -97,8 +124,9 @@ const getLoggedUser = async (req, res) => {
         .json({ message: "User not authenticated or missing userId." });
     }
 
-    const user = req.user;
-    console.log("Logged in user ID:", user);
+    const { userId } = req.user;
+    console.log("Logged in user ID:", userId);
+    const user = await User.findById(userId);
 
     res.status(200).json(user);
   } catch (err) {
@@ -128,4 +156,5 @@ module.exports = {
   updateUserById,
   getAllUsers,
   getLoggedUser,
+  logoutUser,
 };

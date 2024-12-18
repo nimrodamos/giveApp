@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 const usersRoutes = require("./routes/usersRoutes");
 const projectsRoutes = require("./routes/projectsRoutes");
@@ -21,7 +22,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(cookieParser());
 app.use("/users", usersRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/donations", donationsRoutes);
