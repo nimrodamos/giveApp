@@ -15,7 +15,7 @@ const Navbar = () => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="bg-background text-foreground border-b border-border shadow-sm">
+    <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* לוגו */}
         <Link
