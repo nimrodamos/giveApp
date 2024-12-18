@@ -9,36 +9,39 @@ import AboutPage from "./pages/AboutPage";
 import SignupPage from "./pages/SignupPage";
 import ProjectIntro from "./pages/ProjectIntro";
 import { UserProvider } from "./components/context/userContext";
-
+import { Toaster } from "./components/ui/toaster";
 function App() {
   return (
-    <UserProvider>
-      <Router>
-        <Navbar /> {/* תפריט ניווט קבוע */}
-        <Routes>
-          {/* דף הבית */}
-          <Route path="/" element={<HomePage />} />
+    <>
+      <Toaster />
+      <UserProvider>
+        <Router>
+          <Navbar /> {/* תפריט ניווט קבוע */}
+          <Routes>
+            {/* דף הבית */}
+            <Route path="/" element={<HomePage />} />
 
-          {/* דף הצגת כל הפרויקטים */}
-          <Route path="/projects" element={<AllProjectsPage />} />
+            {/* דף הצגת כל הפרויקטים */}
+            <Route path="/projects" element={<AllProjectsPage />} />
 
-          {/* דף יצירת פרויקט */}
-          <Route path="/create" element={<CreateProjectPage />} />
+            {/* דף יצירת פרויקט */}
+            <Route path="/create" element={<CreateProjectPage />} />
 
-          {/* דף פרטי פרויקט */}
-          <Route path="/projects/:id" element={<ProjectPage />} />
+            {/* דף פרטי פרויקט */}
+            <Route path="/projects/:id" element={<ProjectPage />} />
 
-          {/* דף פרופיל משתמש */}
-          <Route path="/profile" element={<UserProfile />} />
-          {/* דף אודות  */}
-          <Route path="/about" element={<AboutPage />} />
-          {/* דף הרשמה */}
-          <Route path="/signup" element={<SignupPage />} />
-          {/* דף הסבר פרוייקט */}
-          <Route path="/projectInfo" element={<ProjectIntro />} />
-        </Routes>
-      </Router>
-    </UserProvider>
+            {/* דף פרופיל משתמש */}
+            <Route path="/profile" element={<UserProfile />} />
+            {/* דף אודות  */}
+            <Route path="/about" element={<AboutPage />} />
+            {/* דף הרשמה */}
+            <Route path="/signup" element={<SignupPage />} />
+            {/* דף הסבר פרוייקט */}
+            <Route path="/projectInfo" element={<ProjectIntro />} />
+          </Routes>
+        </Router>
+      </UserProvider>
+    </>
   );
 }
 

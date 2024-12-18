@@ -18,25 +18,46 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarImage, AvatarFallback } from "./ui/avatar";
+import { useEffect } from "react";
 
 import { api } from "@/api";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 const UserMenu = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, user } = useUser();
+  const { user, setUser } = useUser();
 
-  // const handleLogout = async () => {
-  //   const response = await api.get("/user/logout", { withCredentials: true });
-  //   toast({
-  //     title: "Logged out successfully",
-  //     description: response.data.message,
-  //   });
-  //   dispatch(logoutUser());
-  //   console.log(isLoggedIn);
-  //   navigate("/login");
-  // };
+  const handleLogout = async () => {
+    try {
+      const response = await api.get("/users/logout", {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        setUser(null);
+
+        toast({
+          title: "ההתנתקות בוצעה בהצלחה",
+          description: "כל הכבוד שהתנתקת",
+        });
+
+        navigate("/");
+      } else {
+        toast({
+          title: "אירעה שגיאה",
+          description: "לא הצלחנו להתנתק",
+        });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast({
+        title: "אירעה שגיאה",
+        description: "לא הצלחנו להתנתק",
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -58,7 +79,7 @@ const UserMenu = () => {
             פרופיל
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="ml-auto">
+        <DropdownMenuItem onClick={handleLogout} className="ml-auto">
           <LogOut />
           <span className="ml-auto">התנתקות</span>
         </DropdownMenuItem>
@@ -70,10 +91,30 @@ const UserMenu = () => {
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoggedIn } = useUser();
-  console.log(isLoggedIn);
+  const { isLoggedIn, setUser, user } = useUser();
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    const checkForUser = async () => {
+      try {
+        const response = await api.get("/users/me", { withCredentials: true });
+        if (response.status === 200) {
+          const user = response.data;
+          if (user) {
+            setUser(user);
+          } else {
+            console.log("No user found in response data");
+          }
+        } else {
+          console.log("Invalid token or response not 200", response.status);
+        }
+      } catch (error) {
+        console.error("Error validating token:", error);
+      }
+    };
+    checkForUser();
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">

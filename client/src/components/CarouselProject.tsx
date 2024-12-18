@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Link } from "react-router-dom";
 
 const CarouselProject = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -46,10 +47,12 @@ const CarouselProject = () => {
               key={project._id}
               className=" sm:basis-1/2 md:basis-1/3 lg:basis-1/4 "
             >
-              {/* כרטיס הפרויקט */}
-              <div className="shadow-md rounded-lg">
-                <CardProject project={project} />
-              </div>
+              <Link to={`/projects/${project._id}`}>
+                {/* כרטיס הפרויקט */}
+                <div className="shadow-md rounded-lg">
+                  <CardProject project={project} />
+                </div>
+              </Link>
             </CarouselItem>
           ))}
         </CarouselContent>
