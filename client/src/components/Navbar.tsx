@@ -43,6 +43,22 @@ const Navbar = () => {
               Create Project
             </a>
           </li>
+          <li>
+            <a
+              href="/aboutPage"
+              className="hover:text-primary dark:hover:text-dark-primary"
+            >
+              About Us
+            </a>
+          </li>
+          <li>
+            <a
+              href="/SignupPage"
+              className="hover:text-primary dark:hover:text-dark-primary"
+            >
+              Sign Up
+            </a>
+          </li>
 
           {/* כפתור Login */}
           <li>
