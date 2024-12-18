@@ -1,15 +1,31 @@
 import { useLocation } from "react-router-dom";
 import { FiFacebook, FiMail, FiTwitter } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const ProjectPage = () => {
   const location = useLocation();
   const { project } = location.state || {};
   const formRef = useRef<HTMLDivElement | null>(null);
+  const [donationAmount, setDonationAmount] = useState(""); // סכום התרומה
+  const [selectedAmount, setSelectedAmount] = useState<string | null>(null); // הסכום הנבחר
 
+  // גלילה חלקה לטופס
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // בחירת סכום קבוע
+  const handleAmountClick = (amount: string) => {
+    const cleanAmount = amount.replace("₪", "");
+    setDonationAmount(cleanAmount);
+    setSelectedAmount(amount);
+  };
+
+  // עדכון סכום ידני
+  const handleManualAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDonationAmount(e.target.value);
+    setSelectedAmount(null); // מבטל את הבחירה הקבועה
   };
 
   if (!project)
@@ -17,8 +33,8 @@ const ProjectPage = () => {
 
   return (
     <div className="p-6 container mx-auto space-y-8">
+      {/* מידע על הפרויקט */}
       <div className="bg-background p-6 rounded-lg shadow-lg flex flex-col lg:flex-row items-center gap-8">
-        {/* צד שמאל - מידע על הפרויקט */}
         <div className="w-full lg:w-1/2 space-y-6">
           <h1 className="text-4xl font-extrabold text-primary">
             {project.title}
@@ -85,7 +101,7 @@ const ProjectPage = () => {
           </div>
         </div>
 
-        {/* צד ימין - תמונה גדולה */}
+        {/* תמונה */}
         <div className="w-full lg:w-1/2">
           <img
             src={project.image || "https://via.placeholder.com/600x400"}
@@ -95,7 +111,7 @@ const ProjectPage = () => {
         </div>
       </div>
 
-      {/* בחירת סכום לתרומה */}
+      {/* בחירת סכום */}
       <div className="bg-background p-6 rounded-lg shadow-md text-center">
         <h2 className="text-xl font-bold mb-4 text-primary">
           בחרו סכום לתרומה
@@ -105,64 +121,94 @@ const ProjectPage = () => {
             (amount, index) => (
               <div
                 key={index}
-                className="border-2 border-border rounded-full flex items-center justify-center p-3 hover:border-primary cursor-pointer transition"
+                onClick={() => handleAmountClick(amount)}
+                className={`border-2 rounded-full flex items-center justify-center p-3 cursor-pointer transition ${
+                  selectedAmount === amount
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:border-primary"
+                }`}
               >
-                <span className="font-semibold text-primary">{amount}</span>
+                <span className="font-semibold">{amount}</span>
               </div>
             )
           )}
         </div>
-      </div>
 
-      {/* טופס התרומה */}
-      <div
-        ref={formRef}
-        className="bg-background p-6 rounded-lg shadow-lg space-y-4 border"
-      >
-        <h3 className="text-xl font-bold text-primary text-center mb-4">
-          מלאו את פרטי התרומה
-        </h3>
-        <form className="space-y-4">
-          <div>
-            <label className="block font-semibold mb-1 text-muted-foreground">
-              שם מלא
-            </label>
-            <input
-              type="text"
-              placeholder="הכניסו את שמכם"
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
-          <div>
-            <label className="block font-semibold mb-1 text-muted-foreground">
-              אימייל
-            </label>
-            <input
-              type="email"
-              placeholder="הכניסו את כתובת האימייל"
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
-          <div>
-            <label className="block font-semibold mb-1 text-muted-foreground">
-              סכום התרומה
-            </label>
-            <input
-              type="number"
-              placeholder="הזינו סכום"
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-          </div>
+        {/* הזנה ידנית */}
+        <div className="mt-6">
+          <p className="text-sm font-semibold mb-2 text-muted-foreground">
+            או הזינו סכום אחר לתרומה
+          </p>
+          <input
+            type="number"
+            value={donationAmount}
+            onChange={handleManualAmount}
+            placeholder="הזינו סכום"
+            className="w-full max-w-xs p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary mx-auto block text-center"
+          />
+
+          {/* כפתור המשך */}
+
           <Button
-            type="submit"
-            className="w-full bg-primary text-primary-foreground"
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-ring mt-4 transition duration-300 font-semibold hover:scale-105"
+            onClick={() => alert(`נבחר סכום: ₪${donationAmount || "0"}`)}
           >
             המשך
           </Button>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
 export default ProjectPage;
+
+// {/* טופס התרומה */}
+// <div
+//   ref={formRef}
+//   className="bg-background p-6 rounded-lg shadow-lg space-y-4 border"
+// >
+//   <h3 className="text-xl font-bold text-primary text-center mb-4">
+//     מלאו את פרטי התרומה
+//   </h3>
+//   <form className="space-y-4">
+//     <div>
+//       <label className="block font-semibold mb-1 text-muted-foreground">
+//         שם מלא
+//       </label>
+//       <input
+//         type="text"
+//         placeholder="הכניסו את שמכם"
+//         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+//       />
+//     </div>
+//     <div>
+//       <label className="block font-semibold mb-1 text-muted-foreground">
+//         אימייל
+//       </label>
+//       <input
+//         type="email"
+//         placeholder="הכניסו את כתובת האימייל"
+//         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+//       />
+//     </div>
+//     <div>
+//       <label className="block font-semibold mb-1 text-muted-foreground">
+//         סכום התרומה
+//       </label>
+//       <input
+//         type="number"
+//         value={donationAmount}
+//         onChange={(e) => setDonationAmount(e.target.value)}
+//         placeholder="הזינו סכום"
+//         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+//       />
+//     </div>
+//     <Button
+//       type="submit"
+//       className="w-full bg-primary text-primary-foreground"
+//     >
+//       המשך
+//     </Button>
+//   </form>
+// </div>
