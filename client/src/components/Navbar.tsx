@@ -65,7 +65,7 @@ const Navbar = () => {
                   onClick={openModal}
                   className="border border-border bg-secondary text-foreground hover:bg-primary"
                 >
-                  Login
+                  כניסה
                 </Button>
               </PopoverTrigger>
             </Popover>
