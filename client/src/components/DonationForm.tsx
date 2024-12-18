@@ -38,8 +38,7 @@ const DonationForm = ({ onSuccess }: DonationFormProps) => {
       setErrors(validationErrors);
     } else {
       console.log("Form Submitted:", formData);
-      alert("התרומה בוצעה בהצלחה!");
-      onSuccess(); // מעביר שליטה למעלה
+      onSuccess();
     }
   };
 
