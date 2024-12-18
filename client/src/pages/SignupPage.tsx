@@ -1,44 +1,40 @@
-import { useState , FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function SignupPage() {
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
 
-  const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e : FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/users/register", formData);
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        formData
+      );
       alert("User registered successfully!");
       console.log(response.data);
-      navigate(-1)
+      navigate(-1);
     } catch (err) {
-        console.log(err)
+      console.log(err);
       alert("Registration failed. Please try again.");
     }
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark");
-  };
-
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
+    <div className="flex">
       {/* Left Section with Full-Screen Logo */}
-      <div className="w-1/2 bg-white dark:bg-gray-800 flex items-center justify-center">
+      <div className="w-1/2 bg-background flex items-center justify-center">
         <img
           src="../../Media/Logo.jpeg"
           alt="Logo"
@@ -47,22 +43,12 @@ function SignupPage() {
       </div>
 
       {/* Right Section */}
-      <div className="w-1/2 bg-[#DED5FF] dark:bg-gray-900 flex items-center justify-center">
-        <div className="bg-[#EEE8FF] dark:bg-gray-800 rounded-2xl p-12 shadow-lg w-[500px] space-y-6">
-          {/* Dark Mode Toggle */}
-          <div className="text-right">
-            <button
-              onClick={toggleDarkMode}
-              className="text-sm text-gray-700 dark:text-gray-300"
-            >
-              {darkMode ? "Light Mode" : "Dark Mode"}
-            </button>
-          </div>
-
+      <div className="w-1/2 bg-secondary flex items-center justify-center">
+        <div className="bg-card rounded-2xl p-12 shadow-lg w-[500px] space-y-6">
           {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-gray-600 dark:text-gray-300 font-medium">
+              <label className="block text-foreground font-medium">
                 Username
               </label>
               <input
@@ -71,24 +57,22 @@ function SignupPage() {
                 placeholder="Enter your username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div>
-              <label className="block text-gray-600 dark:text-gray-300 font-medium">
-                Email
-              </label>
+              <label className="block text-foreground font-medium">Email</label>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <div>
-              <label className="block text-gray-600 dark:text-gray-300 font-medium">
+              <label className="block text-foreground font-medium">
                 Password
               </label>
               <input
@@ -97,12 +81,12 @@ function SignupPage() {
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full mt-1 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
             <button
               type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-md transition duration-300 "
+              className="w-full bg-primary hover:bg-ring text-primary-foreground py-3 rounded-md transition duration-300"
             >
               Register
             </button>
@@ -113,17 +97,17 @@ function SignupPage() {
             <img
               src="../../Media/Google1.png"
               alt="Google"
-              className="cursor-pointer block p-2"
+              className="cursor-pointer block"
             />
             <img
               src="../../Media/Apple1.png"
               alt="Apple"
-              className="cursor-pointer block p-2"
+              className="cursor-pointer block"
             />
             <img
               src="../../Media/Facebook1.png"
               alt="Facebook"
-              className="cursor-pointer block p-2  "
+              className="cursor-pointer block"
             />
           </div>
         </div>
