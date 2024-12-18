@@ -12,13 +12,14 @@ const getDashboardStats = async (req, res) => {
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
 
+    const totalDonationsMade = await Donation.countDocuments();
     // Get total unique donors (distinct userIds)
     const totalUniqueDonors = await Donation.distinct("user_id");
 
     res.send({
       totalProjects,
       totalDonations: totalDonations[0]?.total || 0,
-      totalUniqueDonors: totalUniqueDonors.length,
+      totalUniqueDonors: totalDonationsMade,
     });
   } catch (err) {
     res.status(500).send({ error: "Failed to fetch dashboard stats" });
