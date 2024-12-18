@@ -27,7 +27,7 @@ const CarouselProject = () => {
   }, []);
 
   return (
-    <div className="relative p-6 bg-gray-100 rounded-lg shadow-lg max-w-7xl mx-auto">
+    <div className="relative p-6  rounded-lg shadow-lg max-w-7xl mx-auto">
       {/* כותרת הקרוסלה */}
       <h2 className="text-3xl font-bold text-center mb-6 text-primary">
         ✨ פרויקטים נבחרים ✨
