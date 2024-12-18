@@ -3,8 +3,10 @@
 import { useState, FormEvent } from "react";
 import { api } from "@/api";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateProjectPage = () => {
+  const {toast} = useToast()
   // State to store the form input values
   const [formData, setFormData] = useState({
     title: "",
@@ -29,8 +31,7 @@ const CreateProjectPage = () => {
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     console.log(formData);
-
-    const res = await api.post("projects", formData);
+    const res = await api.post("projects", formData , {withCredentials: true});
     console.log(res.data);
     // Example of how you could send this data to an API
     // await api.post('/projects', formData);
