@@ -9,6 +9,7 @@ const ProjectSchema = new mongoose.Schema(
     current_amount: { type: Number, default: 0 },
     end_date: { type: Date },
     status: { type: String, default: "active" },
+    category: {type : String, default: "אחר"},
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

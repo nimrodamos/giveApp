@@ -37,7 +37,7 @@ const Navbar = () => {
           </li>
           <li>
             <a
-              href="/create"
+              href="/projectInfo"
               className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               להתחיל פרויקט

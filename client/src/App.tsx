@@ -7,6 +7,7 @@ import CreateProjectPage from "./pages/CreateProjectPage";
 import UserProfile from "./pages/UserProfile";
 import AboutPage from "./pages/AboutPage";
 import SignupPage from "./pages/SignupPage";
+import ProjectIntro from "./pages/ProjectIntro";
 
 function App() {
   return (
@@ -29,8 +30,11 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         {/* דף אודות  */}
         <Route path="/about" element={<AboutPage/>} />
-        
+        {/* דף הרשמה */}
         <Route path="/signup" element={<SignupPage/>} />
+        {/* דף הסבר פרוייקט */}
+        <Route path="/projectInfo" element={<ProjectIntro/>} />
+
       </Routes>
     </Router>
   );

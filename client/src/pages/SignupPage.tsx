@@ -102,7 +102,7 @@ function SignupPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-md transition duration-300"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-md transition duration-300 "
             >
               Register
             </button>
@@ -111,19 +111,19 @@ function SignupPage() {
           {/* Social Login (Only Images) */}
           <div className="flex items-center flex-col gap-2">
             <img
-              src="../../Media/Google.png"
+              src="../../Media/Google1.png"
               alt="Google"
-              className="cursor-pointer block "
+              className="cursor-pointer block p-2"
             />
             <img
-              src="../../Media/Apple.png"
+              src="../../Media/Apple1.png"
               alt="Apple"
-              className="cursor-pointer block "
+              className="cursor-pointer block p-2"
             />
             <img
-              src="../../Media/Facebook.png"
+              src="../../Media/Facebook1.png"
               alt="Facebook"
-              className="cursor-pointer block "
+              className="cursor-pointer block p-2  "
             />
           </div>
         </div>
