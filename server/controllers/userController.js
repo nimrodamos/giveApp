@@ -77,6 +77,7 @@ const loginUser = async (req, res, next) => {
 
 // Get user by ID
 const getUserById = async (req, res) => {
+  console.log("aaaa");
   try {
     const user = await User.findById(req.params.id);
     if (user) return res.send(user);
@@ -86,6 +87,27 @@ const getUserById = async (req, res) => {
   }
 };
 
+const getLoggedUser = async (req, res) => {
+  console.log("logged");
+
+  try {
+    if (!req.user || !req.user.userId) {
+      return res
+        .status(400)
+        .json({ message: "User not authenticated or missing userId." });
+    }
+
+    const user = req.user;
+    console.log("Logged in user ID:", user);
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("Error in getLoggedUser:", err);
+    res
+      .status(500)
+      .json({ message: "Internal server error.", error: err.message });
+  }
+};
 // Update user by ID
 const updateUserById = async (req, res) => {
   try {
@@ -105,4 +127,5 @@ module.exports = {
   getUserById,
   updateUserById,
   getAllUsers,
+  getLoggedUser,
 };

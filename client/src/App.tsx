@@ -29,12 +29,11 @@ function App() {
         {/* דף פרופיל משתמש */}
         <Route path="/profile" element={<UserProfile />} />
         {/* דף אודות  */}
-        <Route path="/about" element={<AboutPage/>} />
+        <Route path="/about" element={<AboutPage />} />
         {/* דף הרשמה */}
-        <Route path="/signup" element={<SignupPage/>} />
+        <Route path="/signup" element={<SignupPage />} />
         {/* דף הסבר פרוייקט */}
-        <Route path="/projectInfo" element={<ProjectIntro/>} />
-
+        <Route path="/projectInfo" element={<ProjectIntro />} />
       </Routes>
     </Router>
   );
