@@ -1,73 +1,100 @@
 import { useEffect, useState } from "react";
-import { api } from "@/api";
 
-const Stats = () => {
-  const [totalProjects, setTotalProjects] = useState<number | null>(null);
-  const [totalDonations, setTotalDonations] = useState<number | null>(null);
-  const [totalDonationEvents, setTotalDonationEvents] = useState<number | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+// קומפוננטה לאנימציה של כותרת – מילה אחר מילה
+const AnimatedTitle = ({ text }: { text: string }) => {
+  const [visibleWords, setVisibleWords] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true);
+    // פיצול הטקסט למילים ושמירה על רווחים
+    const words = text.trim().split(" ");
+    let currentIndex = 0;
 
-        const res = await api.get("/analytics/stats");
+    const interval = setInterval(() => {
+      setVisibleWords((prev) => [...prev, words[currentIndex]]);
+      currentIndex++;
+      if (currentIndex === words.length) clearInterval(interval);
+    }, 300); // השהיה בין כל מילה
 
-        setTotalProjects(res.data.totalProjects || 0);
-        setTotalDonations(res.data.totalDonations || 0);
-        setTotalDonationEvents(res.data.totalUniqueDonors || 0); 
-      } catch (err) {
-        console.error("Error fetching stats:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
-
-  if (loading) {
-    return <div className="text-center p-6">Loading stats...</div>;
-  }
+    return () => clearInterval(interval);
+  }, [text]);
 
   return (
-    <div className="p-6 bg-card rounded-lg shadow-lg">
-      <h1 className="text-4xl font-bold text-center mb-6 text-[hsl(var(--foreground))]">
-        בואו תצטרפו גם אתם לסטטיסטיקה
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Total Projects */}
-        <div className="flex flex-col items-center p-4 border rounded bg-[hsl(var(--muted))]">
-          <h2 className="text-2xl font-bold text-[hsl(var(--foreground))]">
-            סך הפרויקטים
-          </h2>
-          <p className="text-4xl font-semibold text-primary mt-2">
-            {totalProjects !== null ? totalProjects : "0"}
-          </p>
-        </div>
+    <h1 className="text-4xl md:text-5xl font-extrabold text-center text-primary leading-relaxed">
+      {visibleWords.map((word, index) => (
+        <span
+          key={index}
+          className="inline-block opacity-0 animate-fadeIn transform transition-transform"
+          style={{
+            animationDelay: `${index * 300}ms`, // דיליי לכל מילה
+            animationDuration: "0.5s",
+          }}
+        >
+          {word}&nbsp; {/* שמירה על רווחים בין המילים */}
+        </span>
+      ))}
+    </h1>
+  );
+};
 
-        {/* Total Donations Amount */}
-        <div className="flex flex-col items-center p-4 border rounded bg-[hsl(var(--muted))]">
-          <h2 className="text-2xl font-bold text-[hsl(var(--foreground))]">
-            סך התרומות
-          </h2>
-          <p className="text-4xl font-semibold text-primary mt-2">
-            {totalDonations !== null ? `$${totalDonations}` : "0"}
-          </p>
-        </div>
+// קומפוננטה לאנימציה של מספרים
+const AnimatedNumber = ({ value }: { value: number }) => {
+  const [count, setCount] = useState(0);
 
-        {/* Total Donation Events */}
-        <div className="flex flex-col items-center p-4 border rounded bg-[hsl(var(--muted))]">
-          <h2 className="text-2xl font-bold text-[hsl(var(--foreground))]">
-            סך פעולות התרומה
-          </h2>
-          <p className="text-4xl font-semibold text-primary mt-2">
-            {totalDonationEvents !== null ? totalDonationEvents : "0"}
-          </p>
-        </div>
+  useEffect(() => {
+    let start = 0;
+    const duration = 2000;
+
+    const increment = Math.max(1, Math.floor(value / 100)); // קצב ההתקדמות: לפחות 1, עד 100 צעדים
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setCount(value); // עצירה על המספר המדויק
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, duration / (value / increment)); // קצב הדינמי לפי כמות השלבים
+
+    return () => clearInterval(timer);
+  }, [value]);
+
+  return (
+    <span className="text-4xl font-bold text-primary">
+      {count.toLocaleString()}
+    </span>
+  );
+};
+
+// קומפוננטת הסטטיסטיקות הראשית
+const StatisticsComponent = () => {
+  const stats = [
+    { title: "סך הפרויקטים", value: 8 },
+    { title: "סך התרומות", value: 2650 },
+    { title: "סך פעולות התרומה", value: 6 },
+  ];
+
+  return (
+    <div className="p-8 bg-background rounded-lg shadow-2xl space-y-8">
+      {/* הכותרת עם האנימציה */}
+      <AnimatedTitle text=" בואו תצטרפו גם אתם לסטטיסטיקה " />
+
+      {/* הסטטיסטיקות */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className="p-6 bg-card rounded-lg shadow-lg border border-border transition-transform transform hover:scale-105"
+          >
+            <h2 className="text-lg font-semibold text-muted-foreground mb-2">
+              {stat.title}
+            </h2>
+            <AnimatedNumber value={stat.value} />
+          </div>
+        ))}
       </div>
     </div>
   );
 };
-export default Stats;
+
+export default StatisticsComponent;

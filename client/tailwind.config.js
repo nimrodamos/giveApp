@@ -51,8 +51,16 @@ export default {
           5: "hsl(var(--chart-5))",
         },
       },
+      animation: {
+        fadeInScale: "fadeInScale 0.6s ease-out forwards",
+      },
+      keyframes: {
+        fadeInScale: {
+          "0%": { opacity: "0", transform: "scale(0.8)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-  plugins: [require("tailwindcss-motion")],
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-motion")],
 };
