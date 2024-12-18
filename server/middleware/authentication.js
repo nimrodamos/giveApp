@@ -4,6 +4,7 @@ const cookie = require("cookie");
 function authUser(req, res, next) {
   try {
     let token;
+    console.log(req.headers); // Log all headers to check if cookies are included
 
     if (req.headers.authorization) {
       const [type, credentials] = req.headers.authorization.split(" ");
@@ -11,12 +12,16 @@ function authUser(req, res, next) {
         token = credentials;
       }
     }
-
+    console.log(req.headers.cookie);
     if (!token && req.headers.cookie) {
-      const cookies = cookie.parse(req.headers.cookie);
+      const cookies = cookie.parse(req.headers.cookie, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+      });
       token = cookies.jwt;
     }
-    console.log("aaaa");
+
     if (!token) {
       return res
         .status(401)
