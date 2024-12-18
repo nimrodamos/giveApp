@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { api } from "@/api";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateProjectPage = () => {
   const [formData, setFormData] = useState({
@@ -26,8 +27,7 @@ const CreateProjectPage = () => {
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     console.log(formData);
-
-    const res = await api.post("projects", formData);
+    const res = await api.post("projects", formData , {withCredentials: true});
     console.log(res.data);
   };
 
