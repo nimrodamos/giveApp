@@ -27,7 +27,7 @@ const CarouselProject = () => {
   }, []);
 
   return (
-    <div className="relative p-6 bg-gray-100 rounded-lg shadow-lg max-w-7xl mx-auto">
+    <div className="relative p-6 rounded-lg shadow-lg max-w-7xl mx-auto">
       {/* כותרת הקרוסלה */}
       <h2 className="text-3xl font-bold text-center mb-6 text-primary">
         ✨ פרויקטים נבחרים ✨
@@ -35,14 +35,14 @@ const CarouselProject = () => {
 
       {/* הקרוסלה */}
       <Carousel>
-        <CarouselContent className="flex">
+        <CarouselContent>
           {projects.map((project) => (
             <CarouselItem
               key={project._id}
-              className="w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 "
+              className=" sm:basis-1/2 md:basis-1/3 lg:basis-1/4 "
             >
               {/* כרטיס הפרויקט */}
-              <div className="bg-white shadow-md rounded-lg overflow-hidden">
+              <div className="shadow-md rounded-lg">
                 <CardProject project={project} />
               </div>
             </CarouselItem>
