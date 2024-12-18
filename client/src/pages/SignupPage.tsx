@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState , FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -9,10 +9,10 @@ function SignupPage() {
     email: "",
     password: "",
   });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
