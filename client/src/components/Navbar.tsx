@@ -1,48 +1,58 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@radix-ui/react-popover";
-import Modal from "react-modal";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import LoginModal from "./LoginModal";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // פתיחה וסגירה של המודל
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <nav className="bg-gray-800 text-white">
+    <nav className="bg-background text-foreground border-b border-border shadow-sm dark:bg-dark-background dark:text-dark-foreground dark:border-dark-border">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* לוגו */}
-        <div className="text-2xl font-bold">GiveApp</div>
+        <div className="text-2xl font-bold text-primary dark:text-dark-primary">
+          GiveApp
+        </div>
 
         {/* תפריט */}
         <ul className="flex space-x-6">
           <li>
-            <a href="/" className="hover:text-gray-400">
+            <a
+              href="/"
+              className="hover:text-primary dark:hover:text-dark-primary"
+            >
               Home
             </a>
           </li>
           <li>
-            <a href="/projects" className="hover:text-gray-400">
+            <a
+              href="/projects"
+              className="hover:text-primary dark:hover:text-dark-primary"
+            >
               Projects
             </a>
           </li>
           <li>
-            <a href="/create" className="hover:text-gray-400">
+            <a
+              href="/create"
+              className="hover:text-primary dark:hover:text-dark-primary"
+            >
               Create Project
             </a>
           </li>
 
-          {/* כפתור Login עם Popover */}
+          {/* כפתור Login */}
           <li>
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant={"secondary"} onClick={openModal} className="">
+                <Button
+                  variant="secondary"
+                  onClick={openModal}
+                  className="border border-border bg-secondary text-foreground hover:bg-muted dark:border-dark-border dark:bg-dark-secondary dark:text-dark-foreground dark:hover:bg-dark-muted"
+                >
                   Login
                 </Button>
               </PopoverTrigger>
@@ -51,43 +61,8 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* מודל Login */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Login Modal"
-        className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75"
-        overlayClassName="fixed inset-0"
-        ariaHideApp={false} // חשוב למנוע אזהרות ב-React
-      >
-        <div className="bg-white p-6 rounded shadow-lg w-96">
-          <h2 className="text-2xl font-bold mb-4">Login</h2>
-          <form className="space-y-4">
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 border rounded"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full p-2 border rounded"
-            />
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600"
-            >
-              Login
-            </button>
-          </form>
-          <button
-            onClick={closeModal}
-            className="mt-4 text-red-500 hover:text-red-700"
-          >
-            Close
-          </button>
-        </div>
-      </Modal>
+      {/* קומפוננטת LoginModal */}
+      <LoginModal isOpen={isModalOpen} onClose={closeModal} />
     </nav>
   );
 };
