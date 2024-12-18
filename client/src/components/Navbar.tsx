@@ -1,5 +1,5 @@
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import LoginModal from "./LoginModal";
@@ -18,10 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarImage, AvatarFallback } from "./ui/avatar";
-import { useEffect } from "react";
-
 import { api } from "@/api";
-
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 
@@ -37,12 +34,10 @@ const UserMenu = () => {
 
       if (response.status === 200) {
         setUser(null);
-
         toast({
           title: "ההתנתקות בוצעה בהצלחה",
           description: "כל הכבוד שהתנתקת",
         });
-
         navigate("/");
       } else {
         toast({
@@ -91,35 +86,31 @@ const UserMenu = () => {
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isLoggedIn, setUser, user } = useUser();
+  const { isLoggedIn, setUser } = useUser();
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const checkForUser = async () => {
+    const fetchUser = async () => {
       try {
-        const response = await api.get("/users/me", { withCredentials: true });
+        const response = await api.get("/users/me", {
+          withCredentials: true,
+        });
         if (response.status === 200) {
-          const user = response.data;
-          if (user) {
-            setUser(user);
-          } else {
-            console.log("No user found in response data");
-          }
-        } else {
-          console.log("Invalid token or response not 200", response.status);
+          setUser(response.data);
         }
-      } catch (error) {
-        console.error("Error validating token:", error);
+      } catch (err) {
+        console.error("Error fetching user:", err);
       }
     };
-    checkForUser();
+
+    fetchUser();
   }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
       <div className="container mx-auto flex justify-between items-center p-4">
-        {/* לוגו */}
+        {/* Logo */}
         <Link
           to="/"
           className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110"
@@ -127,7 +118,7 @@ const Navbar = () => {
           GiveApp
         </Link>
 
-        {/* תפריט */}
+        {/* Menu */}
         <ul className="flex space-x-6 items-center">
           <li>
             <a
@@ -153,7 +144,6 @@ const Navbar = () => {
               קצת עלינו
             </a>
           </li>
-          {/* Toggle Dark Mode */}
           <li>
             <div className="flex items-center space-x-2 gap-2">
               <Switch
@@ -165,8 +155,6 @@ const Navbar = () => {
               </span>
             </div>
           </li>
-
-          {/* כפתור Login */}
           <li>
             {!isLoggedIn ? (
               <Popover>
@@ -186,8 +174,6 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-
-      {/* קומפוננטת LoginModal */}
       <LoginModal isOpen={isModalOpen} onClose={closeModal} />
     </nav>
   );

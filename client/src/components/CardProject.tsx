@@ -8,7 +8,7 @@ import {
 
 import { Slider } from "@/components/ui/slider";
 import { Project } from "@/types/projectTypes";
-import React, { useState } from "react";
+import React from "react";
 
 interface CardObjectProps {
   project: Project;
@@ -20,7 +20,7 @@ const CardProject: React.FC<CardObjectProps> = ({ project }) => {
   const percentage = ((current_amount / goal) * 100).toFixed(0);
 
   return (
-    <Card className="space-y-4 flex flex-col justify-between h-[520px]">
+    <Card className="space-y-4 flex flex-col justify-between h-[520px] motion-preset-expand ">
       <CardHeader className="flex gap-6 items-center">
         <div className="w-full h-[200px] overflow-hidden">
           <img

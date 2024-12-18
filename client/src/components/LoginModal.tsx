@@ -43,7 +43,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Login Modal"
-      className="bg-card p-6 rounded-lg shadow-lg w-96 text-card-foreground text-center"
+      className="bg-card p-6 rounded-lg shadow-lg w-96 text-card-foreground text-center motion-preset-expand"
       overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
       ariaHideApp={false}
     >

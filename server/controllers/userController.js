@@ -115,8 +115,6 @@ const getUserById = async (req, res) => {
 };
 
 const getLoggedUser = async (req, res) => {
-  console.log("logged");
-
   try {
     if (!req.user || !req.user.userId) {
       return res

@@ -4,8 +4,6 @@ const cookie = require("cookie");
 function authUser(req, res, next) {
   try {
     let token;
-    console.log(req.headers); // Log all headers to check if cookies are included
-
     if (req.headers.authorization) {
       const [type, credentials] = req.headers.authorization.split(" ");
       if (type === "Bearer") {
