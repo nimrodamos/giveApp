@@ -1,44 +1,32 @@
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Donation = require("../models/Donation");
+const Project = require("../models/Project");
 
-// Get total number of users
-const getTotalUsers = async (req, res) => {
+// Get total projects, total donations amount, and total unique donors
+const getDashboardStats = async (req, res) => {
   try {
-    const totalUsers = await User.countDocuments();
-    res.send({ totalUsers });
-  } catch (err) {
-    res.status(500).send({ error: "Failed to fetch total users" });
-  }
-};
+    // Get total number of projects
+    const totalProjects = await Project.countDocuments();
 
-// Get total amount of donations
-const getTotalDonations = async (req, res) => {
-  try {
+    // Get total donations amount
     const totalDonations = await Donation.aggregate([
       { $group: { _id: null, total: { $sum: "$amount" } } },
     ]);
-    res.send({ totalDonations: totalDonations[0]?.total || 0 });
-  } catch (err) {
-    res.status(500).send({ error: "Failed to fetch total donations" });
-  }
-};
 
-// Get total donations for a specific project
-const getProjectDonations = async (req, res) => {
-  try {
-    const projectDonations = await Donation.aggregate([
-      { $match: { project_id: mongoose.Types.ObjectId(req.params.id) } },
-      { $group: { _id: "$project_id", total: { $sum: "$amount" } } },
-    ]);
-    res.send({ total: projectDonations[0]?.total || 0 });
+    // Get total unique donors (distinct userIds)
+    const totalUniqueDonors = await Donation.distinct("user_id");
+
+    res.send({
+      totalProjects,
+      totalDonations: totalDonations[0]?.total || 0,
+      totalUniqueDonors: totalUniqueDonors.length,
+    });
   } catch (err) {
-    res.status(500).send({ error: "Failed to fetch project donations" });
+    res.status(500).send({ error: "Failed to fetch dashboard stats" });
   }
 };
 
 module.exports = {
-  getTotalUsers,
-  getTotalDonations,
-  getProjectDonations,
+  getDashboardStats,
 };
