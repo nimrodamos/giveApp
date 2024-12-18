@@ -40,6 +40,14 @@ const Navbar = () => {
               להתחיל פרויקט
             </a>
           </li>
+          <li>
+            <a
+              href="/about"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+            >
+              קצת עלינו
+            </a>
+          </li>
           {/* Toggle Dark Mode */}
           <li>
             <div className="flex items-center space-x-2 gap-2">

@@ -32,9 +32,14 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             Login
           </button>
         </form>
+        <p className="mt-3">
+           להרשמות לחץ 
+        <a href="/signup" className="text-purple-500"> כאן  </a>
+        </p>
+        <br />
         <button
           onClick={onClose}
-          className="mt-4 text-destructive dark:text-dark-destructive "
+          className="mt-1 text-destructive dark:text-dark-destructive "
         >
           Close
         </button>
