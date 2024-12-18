@@ -5,6 +5,7 @@ import DonationSection from "@/components/DonationSection";
 import DonationForm from "@/components/DonationForm";
 import { useUser } from "@/components/context/userContext";
 import { Project } from "@/types/projectTypes";
+import { useToast } from "@/hooks/use-toast";
 
 const ProjectPage = () => {
   const location = useLocation();
@@ -17,6 +18,7 @@ const ProjectPage = () => {
   const [showDonationForm, setShowDonationForm] = useState(false);
 
   const { user } = useUser();
+  const { toast } = useToast();
 
   // גלילה למיקום הטופס אם הוא נפתח
   useEffect(() => {
@@ -40,7 +42,10 @@ const ProjectPage = () => {
 
   const handleDonationSubmit = () => {
     if (user) {
-      alert(`התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`);
+      toast({
+        title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${donationAmount || "0"}`,
+        description: "תודה רבה",
+      });
     } else {
       setShowDonationForm(true);
     }
@@ -76,7 +81,16 @@ const ProjectPage = () => {
           <DonationForm
             onSuccess={() => {
               setShowDonationForm(false);
-              alert("ההרשמה והתרומה בוצעו בהצלחה!");
+              toast({
+                title: `התרומה בוצעה בהצלחה! סכום התרומה: ₪${
+                  donationAmount || "0"
+                }`,
+                description: "תודה רבה",
+              });
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
             }}
           />
         </div>
