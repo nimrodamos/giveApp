@@ -4,7 +4,7 @@ import { FaLinkedin, FaInstagram, FaGithub, FaEnvelope } from "react-icons/fa";
 
 const teamMembers = [
   {
-    name: "Ariel",
+    name: "Ariel bitan",
     photo:
       "https://media.licdn.com/dms/image/v2/D4D03AQGo_qTWPav3jw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727228217541?e=1740009600&v=beta&t=_jn6DcpGjj6767tEVbgppr3bPfhC6zHNbjiq6jg26PU",
     linkedin: "https://www.linkedin.com/in/ariel-bitan-271995278/",
@@ -14,7 +14,7 @@ const teamMembers = [
       "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&ifkv=AcMMx-fur11SmcHffOEjaBF9pkEMlG3p639180pmylz21toNyxG0NJH5tjnCrYKsJawro6LS4r87Fg&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1825368990%3A1733391002986747&ddm=1",
   },
   {
-    name: "Nimrod",
+    name: "Nimrod amos",
     photo:
       "https://media.licdn.com/dms/image/v2/D5603AQF5nrXeEk3LIQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1727718821623?e=1738800000&v=beta&t=9IIbAtS-Tb9m1zgYGdwthm0ZQTlys265YUy4VEqOspk",
     linkedin: "https://www.linkedin.com/in/nimrod-amos-a27a4b320/",
@@ -24,7 +24,7 @@ const teamMembers = [
       "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F&ifkv=AcMMx-fur11SmcHffOEjaBF9pkEMlG3p639180pmylz21toNyxG0NJH5tjnCrYKsJawro6LS4r87Fg&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1825368990%3A1733391002986747&ddm=1",
   },
   {
-    name: "Ofer",
+    name: "Ofer sela",
     photo:
       "https://media.licdn.com/dms/image/v2/D5603AQEJsoE4tUQczg/profile-displayphoto-shrink_800_800/B56ZO0eaxeHoAc-/0/1733899693766?e=1740009600&v=beta&t=RhmQ_pbPNwe_Yvwt4s9ZU_AgRW7GnpoixtA6PaAHugc",
     linkedin: "www.linkedin.com/in/ofer-sela-024a941a2",

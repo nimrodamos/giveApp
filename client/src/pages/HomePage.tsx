@@ -4,9 +4,9 @@ import StatisticsComponent from "@/components/StatisticsComponent";
 const HomePage = () => {
   return (
     <div>
-      <StatisticsComponent/>
+      <StatisticsComponent />
       <CarouselProject />
-      
+      <CarouselProject />
     </div>
   );
 };

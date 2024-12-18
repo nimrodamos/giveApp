@@ -128,9 +128,24 @@ const Navbar = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl font-bold text-primary transform transition-transform duration-300 hover:scale-110 mr-4"
+          className="text-3xl font-extrabold flex items-center justify-center space-x-1 transition-transform duration-300 hover:scale-110"
         >
-          GiveApp
+          <span
+            className="text-primary inline-block animate-fadeInScale shadow-md transform transition-transform duration-500 hover:-translate-y-1"
+            style={{
+              textShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            APP
+          </span>
+          <span
+            className="text-primary inline-block animate-fadeInScale delay-150 shadow-md transform transition-transform duration-500 hover:-translate-y-1 scale-110"
+            style={{
+              textShadow: "0px 2px 6px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            GIVE
+          </span>
         </Link>
 
         {/* Search Bar */}
