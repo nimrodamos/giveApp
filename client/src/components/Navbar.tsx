@@ -87,6 +87,7 @@ const UserMenu = () => {
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn, setUser } = useUser();
   const [searchResults, setSearchResults] = useState<Project[]>([]);
   const openModal = () => setIsModalOpen(true);
@@ -94,11 +95,19 @@ const Navbar = () => {
 
   const handleSearchResults = (results: Project[]) => {
     setSearchResults(results);
-    if (results.length === 0) setSearchResults([]); // איפוס אם החיפוש ריק
+    if (results.length === 0) setSearchResults([]);
   };
 
+  const handleSearchQueryChange = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const resetSearchQuery = () => {
+    setSearchQuery(""); // Reset the search query
+  };
   const handleSelectResult = () => {
     setSearchResults([]); // איפוס תוצאות אחרי בחירה
+    resetSearchQuery();
   };
 
   useEffect(() => {
@@ -126,7 +135,12 @@ const Navbar = () => {
 
         {/* Search Bar */}
         <div className="flex-1 mx-6">
-          <SearchBar onSearchResults={handleSearchResults} />
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={handleSearchQueryChange}
+            onSearchResults={handleSearchResults}
+            resetSearchQuery={resetSearchQuery}
+          />
         </div>
 
         {/* Menu */}
