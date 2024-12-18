@@ -14,6 +14,7 @@ export interface ProjectDetails {
 export interface Project {
   _id: string;
   title: string;
+  image?: string;
   description: string;
   goal: number;
   current_amount: number;
