@@ -34,7 +34,12 @@ const CarouselProject = () => {
       </h2>
 
       {/* הקרוסלה */}
-      <Carousel>
+      <Carousel
+        opts={{
+          direction: "rtl",
+          loop: true,
+        }}
+      >
         <CarouselContent>
           {projects.map((project) => (
             <CarouselItem
