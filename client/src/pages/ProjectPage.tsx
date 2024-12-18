@@ -16,10 +16,10 @@ const ProjectPage = () => {
       {/* סכומים וסטטוס */}
       <div className="mb-4">
         <p>
-          <strong>יעד:</strong> ${project.goal}
+          <strong>סכום:</strong> ${project.current_amount}
         </p>
         <p>
-          <strong>סכום:</strong> ${project.current_amount}
+          <strong>יעד:</strong> ${project.goal}
         </p>
       </div>
 

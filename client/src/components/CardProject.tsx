@@ -17,16 +17,12 @@ interface CardObjectProps {
 const CardProject: React.FC<CardObjectProps> = ({ project }) => {
   const { title, description, image, current_amount, goal } = project;
 
-  // State to track the slider value
-  const [sliderValue, setSliderValue] = useState<number[]>([current_amount]);
-
-  // Calculate the percentage of the slider
-  const percentage = ((sliderValue[0] / goal) * 100).toFixed(0);
+  const percentage = ((current_amount / goal) * 100).toFixed(0);
 
   return (
     <Card className="space-y-4 flex flex-col justify-between">
       <CardHeader className="flex gap-6 items-center">
-        <div className="w-full h-[200px] overflow-hidden">
+        <div className="w-full h-[200px] overflow-hidden rounded-t-xl">
           <img
             src={image}
             className="object-cover w-full h-full"
@@ -37,11 +33,12 @@ const CardProject: React.FC<CardObjectProps> = ({ project }) => {
         <CardDescription className="text-sm">{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col justify-between space-y-2">
+        <div className="flex justify-between text-sm font-semibold">
+          <span>{percentage}%</span>
+        </div>
         <Slider
-          value={sliderValue}
-          onValueChange={setSliderValue}
+          value={[current_amount]}
           max={goal}
-          step={1}
           className="w-full h-4"
           aria-label="Money Collected"
           disabled
