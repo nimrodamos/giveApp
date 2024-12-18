@@ -1,6 +1,7 @@
 import { FiSearch } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { api } from "@/api";
+
 interface SearchBarProps {
   searchQuery: string; // Receive searchQuery from parent
   setSearchQuery: (query: string) => void; // Receive setter function to change query
