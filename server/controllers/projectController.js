@@ -3,9 +3,11 @@ const Project = require("../models/Project");
 // Create a new project
 const createProject = async (req, res) => {
   try {
-    const project = new Project(req.body);
-    await project.save();
-    res.status(201).send(project);
+    const { userId } = req.user;
+    const project = { ...req.body, user_id: userId };
+    const newProject = new Project(project);
+    await newProject.save();
+    res.status(201).send(newProject);
   } catch (err) {
     res.status(400).send(err);
   }
