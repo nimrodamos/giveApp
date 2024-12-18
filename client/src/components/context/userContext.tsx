@@ -9,6 +9,7 @@ interface UserContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   fetchUserDetails: () => Promise<void>;
+  setUser: (user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -18,8 +19,12 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const setUser = (user: User | null) => {
+    setUserState(user);
+  };
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
@@ -72,6 +77,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       login,
       logout,
       fetchUserDetails,
+      setUser,
     }),
     [user, isLoading]
   );

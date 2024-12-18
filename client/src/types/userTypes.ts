@@ -5,5 +5,6 @@ export interface User {
   about?: string;
   city?: string;
   created_at?: string;
+  profilePic?: string;
   role?: string;
 }

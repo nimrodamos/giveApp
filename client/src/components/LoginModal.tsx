@@ -3,8 +3,10 @@ import { LoginModalProps } from "@/types/loginTypes";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { api } from "@/api";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./context/userContext";
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+  const { setUser } = useUser();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,10 +25,10 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       });
 
       if (!response.data) {
-        console.log("error logging in");
+        console.log("Error logging in");
+        return;
       }
-
-      console.log("Login successful:", response.data);
+      setUser(response.data.user);
 
       navigate("/");
       setFormData({ email: "", password: "" });

@@ -6,11 +6,72 @@ import LoginModal from "./LoginModal";
 import { useTheme } from "./Theme-provider";
 import { Link } from "react-router-dom";
 import { FiSun, FiMoon } from "react-icons/fi";
+import { useUser } from "./context/userContext";
+import { LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar } from "@radix-ui/react-avatar";
+import { AvatarImage, AvatarFallback } from "./ui/avatar";
+
+import { api } from "@/api";
+
+import { useNavigate } from "react-router-dom";
+
+const UserMenu = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn, user } = useUser();
+
+  // const handleLogout = async () => {
+  //   const response = await api.get("/user/logout", { withCredentials: true });
+  //   toast({
+  //     title: "Logged out successfully",
+  //     description: response.data.message,
+  //   });
+  //   dispatch(logoutUser());
+  //   console.log(isLoggedIn);
+  //   navigate("/login");
+  // };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Avatar className="cursor-pointer mt-4">
+          <AvatarImage
+            className="rounded-full w-10 h-10"
+            src={user?.profilePic || "CN"}
+            alt="user-avatar"
+          />
+          <AvatarFallback className="rounded-full">CN</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="mr-1 text-center">
+        <DropdownMenuLabel>המשתמש שלי</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Link to="/profile" className="ml-auto">
+            פרופיל
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="ml-auto">
+          <LogOut />
+          <span className="ml-auto">התנתקות</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { isLoggedIn } = useUser();
+  console.log(isLoggedIn);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -66,17 +127,21 @@ const Navbar = () => {
 
           {/* כפתור Login */}
           <li>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="secondary"
-                  onClick={openModal}
-                  className="border border-border bg-secondary text-foreground hover:bg-primary"
-                >
-                  כניסה
-                </Button>
-              </PopoverTrigger>
-            </Popover>
+            {!isLoggedIn ? (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    onClick={openModal}
+                    className="border border-border bg-secondary text-foreground hover:bg-primary"
+                  >
+                    כניסה
+                  </Button>
+                </PopoverTrigger>
+              </Popover>
+            ) : (
+              <UserMenu />
+            )}
           </li>
         </ul>
       </div>
