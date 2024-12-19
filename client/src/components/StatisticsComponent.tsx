@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { api } from "@/api";
 
@@ -60,7 +59,7 @@ const AnimatedNumber = ({ value }: { value: number }) => {
   }, [value]);
 
   return (
-    <span className="text-4xl font-bold text-primary">
+    <span className="text-2xl font-bold text-primary">
       {count.toLocaleString()}
     </span>
   );
@@ -70,7 +69,9 @@ const AnimatedNumber = ({ value }: { value: number }) => {
 const DynamicStatisticsComponent = () => {
   const [totalProjects, setTotalProjects] = useState<number | null>(null);
   const [totalDonations, setTotalDonations] = useState<number | null>(null);
-  const [totalDonationEvents, setTotalDonationEvents] = useState<number | null>(null);
+  const [totalDonationEvents, setTotalDonationEvents] = useState<number | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -103,21 +104,21 @@ const DynamicStatisticsComponent = () => {
   ];
 
   return (
-    <div className="p-8 bg-background rounded-lg shadow-2xl space-y-8">
+    <div className="p-4 bg-background rounded-lg  space-y-7">
       {/* Animated Title */}
       <AnimatedTitle text="בואו תצטרפו גם אתם לסטטיסטיקה" />
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-1 text-center">
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="p-6 bg-card rounded-lg shadow-lg border border-border transition-transform transform hover:scale-105"
+            className="p-4 bg-card rounded-lg shadow-lg border border-border transition-transform transform hover:scale-105"
           >
-            <h2 className="text-lg font-semibold text-muted-foreground mb-2">
+            <AnimatedNumber value={stat.value} />
+            <h2 className="text-lg  text-muted-foreground mb-2">
               {stat.title}
             </h2>
-            <AnimatedNumber value={stat.value} />
           </div>
         ))}
       </div>
