@@ -42,7 +42,7 @@ const getDonationsByUserId = async (req, res) => {
     const { id } = req.params;
     const donations = await Donation.find({ user_id: id }).populate(
       "project_id",
-      "title"
+      "title image",
     );
     res.status(200).json(donations);
   } catch (err) {
