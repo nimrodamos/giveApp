@@ -50,6 +50,39 @@ const getProjectById = async (req, res) => {
   }
 };
 
+const getPopularProjects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+
+    // Calculate the popularity based on current_amount / time_since_creation (in minutes)
+    const popularProjects = projects.map((project) => {
+      const creationDate = project.createdAt;
+      const currentDate = new Date();
+
+      const timeSinceCreationInMinutes =
+        (currentDate - creationDate) / (1000 * 60);
+
+      const popularityScore =
+        project.current_amount / timeSinceCreationInMinutes;
+
+      return {
+        ...project.toObject(),
+        popularityScore,
+      };
+    });
+
+    popularProjects.sort((a, b) => b.popularityScore - a.popularityScore);
+
+    const topPopularProjects = popularProjects.slice(0, 10);
+
+    res.json(topPopularProjects);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ error: "Error fetching popular projects", details: error });
+  }
+};
+
 // Update project by ID
 const updateProjectById = async (req, res) => {
   try {
@@ -93,4 +126,5 @@ module.exports = {
   updateProjectById,
   deleteProjectById,
   getUserProjects,
+  getPopularProjects,
 };

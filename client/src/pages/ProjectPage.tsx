@@ -7,6 +7,7 @@ import { useUser } from "@/components/context/userContext";
 import { Project } from "@/types/projectTypes";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/api";
+import FiltersBar from "@/components/FiltersBar";
 
 const ProjectPage = () => {
   const location = useLocation();
@@ -93,6 +94,8 @@ const ProjectPage = () => {
 
   return (
     <div className="p-6 container mx-auto space-y-8">
+      <FiltersBar />
+
       {/* Project details */}
       <ProjectDetails
         project={currentProject}
