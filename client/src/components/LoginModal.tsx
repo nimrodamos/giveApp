@@ -9,6 +9,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { setUser } = useUser();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -44,7 +45,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       onRequestClose={onClose}
       contentLabel="Login Modal"
       className="bg-card p-6 rounded-lg shadow-lg w-96 text-card-foreground text-center motion-preset-expand"
-      overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md"
       ariaHideApp={false}
     >
       <div>
