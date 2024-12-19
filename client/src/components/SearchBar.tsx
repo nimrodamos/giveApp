@@ -31,7 +31,9 @@ const SearchBar = ({
         onSearchResults([]);
         return;
       }
-      const response = await api.get(`/projects?title=${searchQuery}`);
+      const response = await api.get(
+        `/projects?title=${searchQuery}&limit=${5}`
+      );
       onSearchResults(response.data);
     } catch (error) {
       console.error("Error fetching search results:", error);

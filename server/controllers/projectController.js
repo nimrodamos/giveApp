@@ -17,6 +17,7 @@ const createProject = async (req, res) => {
 const getAllProjects = async (req, res) => {
   try {
     const { title, status, owner, category } = req.query;
+    const limit = parseInt(req.query.limit) || 35;
     const query = {};
 
     if (title) {
@@ -29,7 +30,7 @@ const getAllProjects = async (req, res) => {
       query.category = category;
     }
 
-    const projects = await Project.find(query);
+    const projects = await Project.find(query).limit(limit);
 
     res.json(projects);
   } catch (err) {
