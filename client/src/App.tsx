@@ -12,6 +12,7 @@ import { UserProvider } from "./components/context/userContext";
 import { Toaster } from "./components/ui/toaster";
 import { ProjectProvider } from "./components/context/projectContext";
 import FiltersBar from "./components/FiltersBar";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               {/* דף הסבר פרוייקט */}
               <Route path="/projectInfo" element={<ProjectIntro />} />
+              {/* דף שינוי הגדרות */}
+              <Route path="/settings" element={<Settings/>} ></Route>
             </Routes>
           </Router>
         </ProjectProvider>
