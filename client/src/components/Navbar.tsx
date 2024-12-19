@@ -70,16 +70,12 @@ const UserMenu = () => {
       <DropdownMenuContent className="mr-1 text-center">
         <DropdownMenuLabel>המשתמש שלי</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link to="/profile" className="ml-auto">
-            פרופיל
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link to="/settings" className="ml-auto">
-            הגדרות
-          </Link>
-        </DropdownMenuItem>
+        <Link to="/profile" className="ml-auto">
+          <DropdownMenuItem>פרופיל</DropdownMenuItem>
+        </Link>
+        <Link to="/settings" className="ml-auto">
+          <DropdownMenuItem>הגדרות</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem onClick={handleLogout} className="ml-auto">
           <LogOut />
           <span className="ml-auto">התנתקות</span>

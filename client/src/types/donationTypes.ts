@@ -4,6 +4,6 @@ export interface Donation {
   comment?: string;
   user_id: string;
   project_id: string;
-  timestamp: string;
+  createdAt: string;
   payment_status: string;
 }
