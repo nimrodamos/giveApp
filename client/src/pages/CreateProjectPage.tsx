@@ -1,7 +1,7 @@
 import { useState, FormEvent } from "react";
 import { api } from "@/api";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import UploadWidget from "@/components/UploadWidget";
 import { useNavigate } from "react-router-dom";
 
@@ -36,11 +36,20 @@ const CreateProjectPage = () => {
         withCredentials: true,
       });
       if (res.data._id) {
-        navigate(`/projects/${res.data._id}`);
+        navigate("/profile");
+        toast({
+          title: "Success",
+          description: "Project submitted successfully!",
+        });
       } else {
         console.error("Project creation failed: Missing _id in response.");
       }
     } catch (error) {
+      toast({
+        title: "Failure",
+        description: "Project submitting failed. Please try again.",
+        variant: "destructive",
+      });
       console.log(error);
     }
   };
