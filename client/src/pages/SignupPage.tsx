@@ -43,88 +43,91 @@ function SignupPage() {
   };
 
   return (
-    <div className="flex text-black">
-      {/* Left Section with Full-Screen Logo */}
-      <div className="w-1/2 bg-background flex items-center justify-center">
-        <img
-          src="../../Media/Logo.jpeg"
-          alt="Logo"
-          className="w-full h-full object-cover"
-        />
-      </div>
+    <div className="flex text-black items-center justify-center h-screen  p-6">
+      <div className="bg-card rounded-2xl shadow-lg border border-border flex overflow-hidden">
+        {/* Left Section with Smaller Image */}
+        <div className="w-1/2 flex items-center justify-center p-4 bg-primary">
+          <img
+            src="../../Media/Screenshot_2024-12-19_001546-removebg-preview.png"
+            alt="Logo"
+            className="w-full h-auto object-contain"
+          />
+        </div>
 
-      {/* Right Section */}
-      <div className="w-1/2 bg-secondary flex items-center justify-center">
-        <div className="bg-card rounded-2xl p-12 shadow-lg w-[500px] space-y-6">
-          {/* Form */}
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-foreground font-medium">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                placeholder="Enter your username"
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <div>
-              <label className="block text-foreground font-medium">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <div>
-              <label className="block text-foreground font-medium">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary hover:bg-ring text-primary-foreground py-3 rounded-md transition duration-300"
-            >
-              Register
-            </button>
-          </form>
+        {/* Right Section with Form */}
+        <div className="w-1/2 bg-primary flex items-center justify-center p-6">
+          <div className="bg-card rounded-2xl p-8 shadow-lg w-[500px] space-y-6">
+            {/* Form */}
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="block text-foreground font-medium">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+              <div>
+                <label className="block text-foreground font-medium">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+              <div>
+                <label className="block text-foreground font-medium">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full mt-1 p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-primary hover:bg-ring text-primary-foreground py-3 rounded-md transition duration-300"
+              >
+                Register
+              </button>
+            </form>
 
-          {/* Social Login (Only Images) */}
-          <div className="flex items-center flex-col gap-2">
-            <img
-              src="../../Media/Google1.png"
-              alt="Google"
-              className="cursor-pointer block"
-            />
-            <img
-              src="../../Media/Apple1.png"
-              alt="Apple"
-              className="cursor-pointer block"
-            />
-            <img
-              src="../../Media/Facebook1.png"
-              alt="Facebook"
-              className="cursor-pointer block"
-            />
+            {/* Social Login (Only Images) */}
+            <div className="flex items-center flex-col gap-2">
+              <img
+                src="../../Media/Google1.png"
+                alt="Google"
+                className="w-72 mb-3 cursor-pointer block"
+              />
+              <img
+                src="../../Media/Apple1.png"
+                alt="Apple"
+                className="w-72 mb-3 cursor-pointer block"
+              />
+              <img
+                src="../../Media/Facebook1.png"
+                alt="Facebook"
+                className="w-72 cursor-pointer block"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+
 }
 
 export default SignupPage;

@@ -53,7 +53,7 @@ const Stats = () => {
             סך התרומות
           </h2>
           <p className="text-4xl font-semibold text-primary mt-2">
-            {totalDonations !== null ? `$${totalDonations}` : "0"}
+            {totalDonations !== null ? `₪${totalDonations}` : "0"}
           </p>
         </div>
 
