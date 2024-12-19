@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import LoginModal from "./LoginModal";
 import { useTheme } from "./Theme-provider";
 import { Link } from "react-router-dom";
-import { FiSun, FiMoon } from "react-icons/fi";
+import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 import { useUser } from "./context/userContext";
 import { LogOut } from "lucide-react";
 import {
@@ -90,6 +90,8 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { isLoggedIn, setUser } = useUser();
   const [searchResults, setSearchResults] = useState<Project[]>([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -105,6 +107,7 @@ const Navbar = () => {
   const resetSearchQuery = () => {
     setSearchQuery(""); // Reset the search query
   };
+
   const handleSelectResult = () => {
     setSearchResults([]); // איפוס תוצאות אחרי בחירה
     resetSearchQuery();
@@ -132,24 +135,28 @@ const Navbar = () => {
         >
           <span
             className="text-primary inline-block animate-fadeInScale shadow-md transform transition-transform duration-500 hover:-translate-y-1"
-            style={{
-              textShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)",
-            }}
+            style={{ textShadow: "0px 2px 4px rgba(0, 0, 0, 0.3)" }}
           >
             APP
           </span>
           <span
             className="text-primary inline-block animate-fadeInScale delay-150 shadow-md transform transition-transform duration-500 hover:-translate-y-1 scale-110"
-            style={{
-              textShadow: "0px 2px 6px rgba(0, 0, 0, 0.4)",
-            }}
+            style={{ textShadow: "0px 2px 6px rgba(0, 0, 0, 0.4)" }}
           >
             GIVE
           </span>
         </Link>
 
+        {/* Hamburger Menu */}
+        <button
+          className="block md:hidden text-primary focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        </button>
+
         {/* Search Bar */}
-        <div className="flex-1 mx-6">
+        <div className="hidden md:flex flex-1 mx-6">
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={handleSearchQueryChange}
@@ -159,7 +166,11 @@ const Navbar = () => {
         </div>
 
         {/* Menu */}
-        <ul className="flex items-center space-x-4">
+        <ul
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } md:flex items-center space-y-4 md:space-y-0 absolute md:static top-16 right-0 bg-background md:bg-transparent w-full md:w-auto p-4 md:p-0 shadow-md md:shadow-none z-50`}
+        >
           <li>
             <a
               href="/projects"

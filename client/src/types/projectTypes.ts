@@ -18,5 +18,5 @@ export interface Project {
   description: string;
   goal: number;
   current_amount: number;
-  endDate: Date;
+  end_date: Date;
 }
