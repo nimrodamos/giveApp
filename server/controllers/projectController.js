@@ -72,15 +72,16 @@ const deleteProjectById = async (req, res) => {
 
 //////////////////////////////////////
 const getUserProjects = async (req, res) => {
-  try {console.log(req.user.id)
-    const userId = req.user.id; // Auth middleware provides user ID
-    const projects = await Project.find({ creator_id: userId });
+  try {
+    const userId = req.user.userId; // Get the logged-in user's ID from the token
+    const projects = await Project.find({ user_id: userId }); // Query projects created by this user
     res.status(200).json({ projects });
   } catch (err) {
     console.error("Error fetching user projects:", err.message);
     res.status(500).json({ error: "Failed to fetch user projects" });
   }
 };
+
 ///////////////////////////////////////
 module.exports = {
   createProject,
