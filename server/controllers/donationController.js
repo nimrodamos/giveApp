@@ -30,9 +30,10 @@ const getDonationsByProjectId = async (req, res) => {
 
 // Get all donations for a specific user
 const getDonationsByUserId = async (req, res) => {
-  try {
-    const donations = await Donation.find({ user_id: req.params.id });
-    res.send(donations);
+  try { console.log(req.params.id)
+    const {id} = req.params;
+    const donations = await Donation.find({user_id : id});
+    res.status(200).json(donations);
   } catch (err) {
     res.status(500).send(err);
   }
