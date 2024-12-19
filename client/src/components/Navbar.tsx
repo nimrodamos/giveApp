@@ -75,6 +75,11 @@ const UserMenu = () => {
             פרופיל
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to="/settings" className="ml-auto">
+            הגדרות
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout} className="ml-auto">
           <LogOut />
           <span className="ml-auto">התנתקות</span>
