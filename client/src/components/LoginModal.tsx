@@ -4,6 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { api } from "@/api";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "./context/userContext";
+import { toast } from "@/hooks/use-toast";
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const { setUser } = useUser();
@@ -26,16 +27,46 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
       });
 
       if (!response.data) {
-        console.log("Error logging in");
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or password.",
+          variant: "destructive",
+        });
         return;
       }
+
       setUser(response.data.user);
+
+      toast({
+        title: "Welcome Back!",
+        description: `Hello ${response.data.user.name}, great to see you again!`,
+      });
 
       navigate("/");
       setFormData({ email: "", password: "" });
       onClose();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
+
+      if (error.response?.status === 401) {
+        toast({
+          title: "Unauthorized",
+          description: "Incorrect email or password. Please try again.",
+          variant: "destructive",
+        });
+      } else if (error.response?.status === 500) {
+        toast({
+          title: "Server Error",
+          description: "An issue occurred on the server. Try again later.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Unexpected Error",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
