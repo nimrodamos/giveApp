@@ -28,6 +28,13 @@ const getDonationsByProjectId = async (req, res) => {
   }
 };
 
+const getAllDonations = async (req, res) => {
+  try {
+    const donations = await Donation.find({});
+    res.status(200).json(donations);
+  } catch (error) {}
+};
+
 // Get all donations for a specific user
 const getDonationsByUserId = async (req, res) => {
   try {
@@ -42,4 +49,5 @@ module.exports = {
   createDonation,
   getDonationsByProjectId,
   getDonationsByUserId,
+  getAllDonations,
 };
