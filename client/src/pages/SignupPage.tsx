@@ -38,7 +38,11 @@ function SignupPage() {
       navigate("/");
     } catch (err) {
       console.log(err);
-      alert("Registration failed. Please try again.");
+      toast({
+        title: "Failure",
+        description: "Registration failed. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
