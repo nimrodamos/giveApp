@@ -1,6 +1,5 @@
 const Project = require("../models/Project");
 const { faker } = require("@faker-js/faker");
-const { options } = require("../routes/donationsRoutes");
 
 // Create a new project
 const createProject = async (req, res) => {
@@ -87,17 +86,12 @@ const getUserProjects = async (req, res) => {
   try {
     const userId = req.user.userId; // Get the logged-in user's ID from the token
     const projects = await Project.find({ user_id: userId }); // Query projects created by this user
-  try {
-    console.log(req.user.id);
-    const userId = req.user.id; // Auth middleware provides user ID
-    const projects = await Project.find({ creator_id: userId });
     res.status(200).json({ projects });
   } catch (err) {
     console.error("Error fetching user projects:", err.message);
     res.status(500).json({ error: "Failed to fetch user projects" });
   }
 };
-
 ///////////////////////////////////////
 module.exports = {
   createProject,
@@ -106,4 +100,4 @@ module.exports = {
   updateProjectById,
   deleteProjectById,
   getUserProjects,
-};
+}
