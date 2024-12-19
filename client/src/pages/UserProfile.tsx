@@ -53,6 +53,49 @@ const UserProfile: React.FC = () => {
   }
 
   return (
+<div className="p-6 max-w-6xl mx-auto bg-card shadow-lg rounded-lg space-y-6">
+  {/* User Info Section */}
+  <div className="flex justify-between items-start w-full max-w-6xl mx-auto space-x-4">
+    {/* Profile Card */}
+    <div className="w-[290px] h-[410px] bg-background border rounded-md shadow-sm hover:shadow-md overflow-hidden text-right rtl">
+      {/* Background Image */}
+      <div className="relative h-24 w-full bg-cover bg-center">
+        <img src="../../Media/background.png" alt="" className="w-full h-full object-cover" />
+        {/* Profile Picture */}
+        <img
+          src={"../../Media/profilePic.jpeg"}
+          alt="Profile"
+          className="absolute bottom-[-48px] right-4 w-24 h-24 rounded-full border-4 border-card object-cover shadow-md"
+        />
+      </div>
+
+      {/* Content Section */}
+      <div className="p-3 pt-14">
+        {/* Full Name */}
+        <h2 className="text-2xl font-bold text-foreground mb-3">{user.fullName || user.username}</h2>
+
+        {/* Role/Title */}
+        <p className="text-base text-muted-foreground mb-2">{user.role || "No role specified"}</p>
+
+        {/* Address */}
+        <p className="text-sm text-muted-foreground mb-4">{user.city || "No address specified"}</p>
+
+        {/* Small Images Row */}
+        <div className="flex justify-between items-center space-x-2 pt-10">
+          <img src="../../Media/5296503_inspiration_pin_pinned_pinterest_social network_icon.png" alt="Small Image 1" className="w-12 h-12 rounded-full border border-card object-cover" />
+          <img src="../../Media/5296501_linkedin_network_linkedin logo_icon.png" alt="Small Image 2" className="w-12 h-12 rounded-full border border-card object-cover" />
+          <img src="../../Media/5296499_fb_facebook_facebook logo_icon.png" alt="Small Image 3" className="w-12 h-12 rounded-full border border-card object-cover" />
+        </div>
+      </div>
+    </div>
+
+    {/* About Section */}
+    <div className="flex-1 bg-background border rounded-md shadow-sm hover:shadow-md p-6 text-right rtl h-[410px] pr-4">
+      <h2 className="text-xl font-bold text-foreground mb-4">About</h2>
+      <p className="text-sm text-muted-foreground">{user.about || "No about section provided."}</p>
+    </div>
+  </div>
+
     <div className="p-6 max-w-6xl mx-auto bg-card shadow-lg rounded-lg space-y-6">
       {/* User Info Section */}
 
@@ -86,7 +129,7 @@ const UserProfile: React.FC = () => {
                     className="w-full h-32 object-cover rounded mb-3"
                   />
                   <h3 className="text-xl font-medium">{project.title}</h3>
-                  <p className="text-muted-foreground">{project.description}</p>
+                  
                   <p className="mt-2 text-sm text-primary">
                     יעד: ₪{project.goal} | גויס: ₪{project.current_amount}
                   </p>
@@ -131,7 +174,7 @@ const UserProfile: React.FC = () => {
                     </span>
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    בתאריך:{" "}
+                    בתאריך: {" "}
                     {donation.createdAt
                       ? new Date(donation.createdAt).toLocaleDateString()
                       : "Unknown Date"}
@@ -146,6 +189,7 @@ const UserProfile: React.FC = () => {
       </div>
     </div>
   );
+}
 };
 
 export default UserProfile;
