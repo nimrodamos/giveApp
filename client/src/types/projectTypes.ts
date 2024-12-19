@@ -19,4 +19,5 @@ export interface Project {
   goal: number;
   current_amount: number;
   end_date: Date;
+  category: string;
 }
