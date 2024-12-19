@@ -14,7 +14,9 @@ const CreateProjectPage = () => {
     end_date: "",
     image: "", // Add an image URL to the form data
   });
+  const [loading, setLoading] = useState(false); // New state for loading
   const navigate = useNavigate();
+
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -28,10 +30,19 @@ const CreateProjectPage = () => {
   };
 
   const handleFormSubmit = async (e: FormEvent) => {
-    try {
-      e.preventDefault();
+    e.preventDefault(); // Prevent form submission
 
-      // Make the POST request to your API with the formData, including the image URL
+    if (loading) {
+      toast({
+        title: "Failure",
+        description: "Please wait until the image is uploaded.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Make the POST request to your API with the formData, including the image URL
+    try {
       const res = await api.post("projects", formData, {
         withCredentials: true,
       });
@@ -55,11 +66,13 @@ const CreateProjectPage = () => {
   };
 
   const handleImageUpload = (imageUrl: string) => {
+    setLoading(true); // Start loading when image upload begins
     // Update form data with the uploaded image URL
     setFormData((prevData) => ({
       ...prevData,
       image: imageUrl,
     }));
+    setLoading(false); // End loading when image is uploaded
   };
 
   const categories = [
@@ -151,11 +164,17 @@ const CreateProjectPage = () => {
           />
 
           <div>העלאת תמונה</div>
-          <UploadWidget onImageUpload={handleImageUpload} />
+          <UploadWidget
+            onImageUpload={(imageUrl) => handleImageUpload(imageUrl)}
+          />
 
-          <Button className="bg-primary p-2 rounded text-primary-foreground hover:bg-primary/90 transition">
-            צור פרוייקט
+          <Button
+            className="bg-primary p-2 rounded text-primary-foreground hover:bg-primary/90 transition"
+            disabled={loading} // Disable submit button while loading
+          >
+            {loading ? "העלאה..." : "צור פרוייקט"}
           </Button>
+
           <p className="text-foreground">
             *- אופציינאלי <br /> **- עד 60 ימים
           </p>

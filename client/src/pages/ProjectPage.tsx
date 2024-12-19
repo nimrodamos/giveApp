@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import ProjectDetails from "@/components/ProjectDetails";
 import DonationSection from "@/components/DonationSection";
@@ -11,6 +11,7 @@ import FiltersBar from "@/components/FiltersBar";
 
 const ProjectPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { project }: { project: Project } = location.state || {};
   const [currentProject, setCurrentProject] = useState<Project>(project);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -21,6 +22,37 @@ const ProjectPage = () => {
 
   const { user } = useUser();
   const { toast } = useToast();
+
+  // Fetch project again to verify it exists
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const res = await api.get(`projects/${project?._id}`);
+        if (res.data) {
+          setCurrentProject(res.data);
+        } else {
+          toast({
+            title: "שגיאה",
+            description: "הפרויקט לא נמצא או לא קיים יותר.",
+            variant: "destructive",
+          });
+          navigate("/home");
+        }
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        toast({
+          title: "שגיאה",
+          description: "לא הצלחנו למצוא את הפרויקט. נסה שוב מאוחר יותר.",
+          variant: "destructive",
+        });
+        navigate("/home");
+      }
+    };
+
+    if (project?._id) {
+      fetchProject();
+    }
+  }, [project, toast, navigate]);
 
   // Scroll to donation form if it is open
   useEffect(() => {
@@ -60,8 +92,8 @@ const ProjectPage = () => {
       };
 
       setCurrentProject(updatedProject);
-      setDonationAmount(0); // Reset donation amount
-      setSelectedAmount(null); // Reset selected amount
+      setDonationAmount(0);
+      setSelectedAmount(null);
       window.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -89,7 +121,7 @@ const ProjectPage = () => {
     await submitDonation();
   };
 
-  if (!project)
+  if (!currentProject)
     return <div className="p-6 text-center text-lg font-semibold">טוען...</div>;
 
   return (
