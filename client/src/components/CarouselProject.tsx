@@ -36,19 +36,23 @@ const CarouselProject = () => {
       {/* Carousel */}
       <Carousel opts={{ direction: "rtl", loop: true }}>
         <CarouselContent>
-          {projects.map((project) => (
-            <CarouselItem
-              key={project._id}
-              className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
-            >
-              <Link to={`/projects/${project._id}`} state={{ project }}>
-                {/* Project Card */}
-                <div className="shadow-md rounded-lg">
-                  <CardProject project={project} />
-                </div>
-              </Link>
-            </CarouselItem>
-          ))}
+          {projects.slice(0, 10).map(
+            (
+              project // הצגת 10 הפרויקטים הראשונים
+            ) => (
+              <CarouselItem
+                key={project._id}
+                className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+              >
+                <Link to={`/projects/${project._id}`} state={{ project }}>
+                  {/* Project Card */}
+                  <div className="shadow-md rounded-lg">
+                    <CardProject project={project} />
+                  </div>
+                </Link>
+              </CarouselItem>
+            )
+          )}
         </CarouselContent>
 
         {/* Navigation Buttons */}
