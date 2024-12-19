@@ -152,8 +152,16 @@ const Navbar = () => {
           </span>
         </Link>
 
+        {/* Hamburger Menu */}
+        <button
+          className="block md:hidden text-primary focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        </button>
+
         {/* Search Bar */}
-        <div className="flex flex-1 mx-4">
+        <div className="hidden md:flex flex-1 mx-6">
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={handleSearchQueryChange}
@@ -162,71 +170,66 @@ const Navbar = () => {
           />
         </div>
 
-        {/* Hamburger Menu */}
-        <button
-          className="block md:hidden text-primary focus:outline-none ml-4"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        {/* Menu */}
+        <ul
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } md:flex items-center space-y-4 md:space-y-0 absolute md:static top-16 right-0 bg-background md:bg-transparent w-full md:w-auto p-4 md:p-0 shadow-md md:shadow-none z-50`}
         >
-          {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-        </button>
+          <li>
+            <a
+              href="/projects"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+            >
+              פרויקטים
+            </a>
+          </li>
+          <li>
+            <a
+              href="/projectInfo"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+            >
+              להתחיל פרויקט
+            </a>
+          </li>
+          <li>
+            <a
+              href="/about"
+              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+            >
+              קצת עלינו
+            </a>
+          </li>
+          <li>
+            <div className="flex items-center space-x-2 gap-2">
+              <Switch
+                checked={theme === "dark"}
+                onCheckedChange={toggleTheme}
+              />
+              <span className="text-sm text-muted-foreground">
+                {theme === "light" ? <FiSun size={20} /> : <FiMoon size={20} />}
+              </span>
+            </div>
+          </li>
+          <li>
+            {!isLoggedIn ? (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    onClick={openModal}
+                    className="border border-border bg-secondary text-foreground hover:bg-primary"
+                  >
+                    כניסה
+                  </Button>
+                </PopoverTrigger>
+              </Popover>
+            ) : (
+              <UserMenu />
+            )}
+          </li>
+        </ul>
       </div>
-
-      {/* Menu */}
-      <ul
-        className={`${
-          isMenuOpen ? "block" : "hidden"
-        } md:flex items-center space-y-4 md:space-y-0 absolute md:static top-16 right-0 bg-background md:bg-transparent w-full md:w-auto p-4 md:p-0 shadow-md md:shadow-none z-50`}
-      >
-        <li>
-          <a
-            href="/projects"
-            className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
-          >
-            פרויקטים
-          </a>
-        </li>
-        <li>
-          <a
-            href="/projectInfo"
-            className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
-          >
-            להתחיל פרויקט
-          </a>
-        </li>
-        <li>
-          <a
-            href="/about"
-            className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:right-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
-          >
-            קצת עלינו
-          </a>
-        </li>
-        <li>
-          <div className="flex items-center space-x-2 gap-2">
-            <Switch checked={theme === "dark"} onCheckedChange={toggleTheme} />
-            <span className="text-sm text-muted-foreground">
-              {theme === "light" ? <FiSun size={20} /> : <FiMoon size={20} />}
-            </span>
-          </div>
-        </li>
-        <li>
-          {!isLoggedIn ? (
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="secondary"
-                  onClick={openModal}
-                  className="border border-border bg-secondary text-foreground hover:bg-primary"
-                >
-                  כניסה
-                </Button>
-              </PopoverTrigger>
-            </Popover>
-          ) : (
-            <UserMenu />
-          )}
-        </li>
-      </ul>
 
       {/* Display Search Results */}
       {searchResults.length > 0 && (
