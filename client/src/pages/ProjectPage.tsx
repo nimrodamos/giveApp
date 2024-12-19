@@ -59,6 +59,8 @@ const ProjectPage = () => {
       };
 
       setCurrentProject(updatedProject);
+      setDonationAmount(0); // Reset donation amount
+      setSelectedAmount(null); // Reset selected amount
       window.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -68,7 +70,12 @@ const ProjectPage = () => {
         description: "תודה רבה",
       });
     } catch (error) {
-      console.log(error);
+      console.error("Error during donation:", error);
+      toast({
+        title: "שגיאה",
+        description: "התרומה לא הצליחה. נסה שוב מאוחר יותר.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -78,7 +85,7 @@ const ProjectPage = () => {
       setShowDonationForm(true);
       return;
     }
-    submitDonation();
+    await submitDonation();
   };
 
   if (!project)
@@ -102,6 +109,7 @@ const ProjectPage = () => {
         onAmountClick={handleAmountClick}
         onManualAmountChange={handleManualAmountChange}
         onSubmit={handleDonationSubmit}
+        resetDonationAmount={() => setDonationAmount(0)} // אפס את השדה
       />
 
       {/* Donation form if user is not logged in */}
@@ -114,7 +122,10 @@ const ProjectPage = () => {
             מלאו את פרטי התרומה
           </h3>
           <DonationForm
-            onSuccess={() => setShowDonationForm(false)}
+            onSuccess={() => {
+              setShowDonationForm(false);
+              setDonationAmount(0); // Reset donation amount
+            }}
             submitDonation={submitDonation}
           />
         </div>

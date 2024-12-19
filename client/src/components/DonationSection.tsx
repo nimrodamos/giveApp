@@ -8,6 +8,7 @@ interface DonationSectionProps {
   onAmountClick: (amount: number) => void;
   onManualAmountChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: () => void;
+  resetDonationAmount: () => void; // פונקציה חדשה לאיפוס סכום התרומה
 }
 
 const DonationSection = ({
@@ -17,6 +18,7 @@ const DonationSection = ({
   onAmountClick,
   onManualAmountChange,
   onSubmit,
+  resetDonationAmount, // הוספת הפונקציה כ-prop
 }: DonationSectionProps) => {
   const { isLoggedIn } = useUser();
 
@@ -24,6 +26,12 @@ const DonationSection = ({
   const handleAmountClick = (amount: string) => {
     const numericAmount = parseFloat(amount.replace("₪", "")); // Remove ₪ and convert to number
     onAmountClick(numericAmount); // Call the onAmountClick with the numeric value
+  };
+
+  // פונקציה לשילוב שליחה ואיפוס
+  const handleSubmit = () => {
+    onSubmit(); // קריאה לפונקציית השליחה
+    resetDonationAmount(); // קריאה לאיפוס סכום התרומה
   };
 
   return (
@@ -62,7 +70,7 @@ const DonationSection = ({
         />
 
         <Button
-          onClick={onSubmit}
+          onClick={handleSubmit} // קריאה לפונקציה המשולבת
           className="bg-primary text-primary-foreground px-6 py-3 rounded-lg mt-4 hover:bg-ring transition duration-300 font-semibold hover:scale-105"
         >
           {isLoggedIn ? `תשלום` : `המשך`}
