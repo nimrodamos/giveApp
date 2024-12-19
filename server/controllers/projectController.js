@@ -31,15 +31,7 @@ const getAllProjects = async (req, res) => {
 
     const projects = await Project.find(query);
 
-    // Update each project's photo field with a random 500x500 photo
-    const updatedProjects = projects.map((project) => {
-      return {
-        ...project.toObject(), // Convert Mongoose document to plain object
-        image: faker.image.url({ width: 500, height: 500 }),
-      };
-    });
-
-    res.json(updatedProjects);
+    res.json(projects);
   } catch (err) {
     res.status(500).send({ error: "Error fetching projects", details: err });
   }

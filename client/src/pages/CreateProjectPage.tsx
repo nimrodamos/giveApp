@@ -2,6 +2,8 @@ import { useState, FormEvent } from "react";
 import { api } from "@/api";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import UploadWidget from "@/components/UploadWidget";
+import { useNavigate } from "react-router-dom";
 
 const CreateProjectPage = () => {
   const [formData, setFormData] = useState({
@@ -10,8 +12,9 @@ const CreateProjectPage = () => {
     goal: "",
     category: "",
     end_date: "",
+    image: "", // Add an image URL to the form data
   });
-
+  const navigate = useNavigate();
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -25,21 +28,39 @@ const CreateProjectPage = () => {
   };
 
   const handleFormSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
-    const res = await api.post("projects", formData , {withCredentials: true});
-    console.log(res.data);
+    try {
+      e.preventDefault();
+
+      // Make the POST request to your API with the formData, including the image URL
+      const res = await api.post("projects", formData, {
+        withCredentials: true,
+      });
+      if (res.data._id) {
+        navigate(`/projects/${res.data._id}`);
+      } else {
+        console.error("Project creation failed: Missing _id in response.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleImageUpload = (imageUrl: string) => {
+    // Update form data with the uploaded image URL
+    setFormData((prevData) => ({
+      ...prevData,
+      image: imageUrl,
+    }));
   };
 
   const categories = [
     "חינוך",
     "בריאות",
-    "פיתוח קהילתי",
+    "קהילה",
     "סביבה",
-    "אמנות ותרבות",
-    "רווחת בעלי חיים",
-    "סיוע חירום",
-    "אחר",
+    "חיות",
+    "מחסה",
+    "מזון",
   ];
 
   return (
@@ -48,7 +69,7 @@ const CreateProjectPage = () => {
       <div className="w-2/5">
         <img
           className="w-full rounded-full object-cover h-full"
-          src="../../Media/charitiessss.jpg"
+          src={formData.image || "../../Media/charitiessss.jpg"}
           alt="צור פרויקט חדש"
         />
       </div>
@@ -84,7 +105,6 @@ const CreateProjectPage = () => {
             value={formData.title}
             onChange={handleInputChange}
           />
-
           <p className="text-foreground">תיאור הפרוייקט</p>
           <textarea
             placeholder="מה הפרוייקט מכיל?"
@@ -120,6 +140,9 @@ const CreateProjectPage = () => {
             value={formData.end_date}
             onChange={handleInputChange}
           />
+
+          <div>העלאת תמונה</div>
+          <UploadWidget onImageUpload={handleImageUpload} />
 
           <Button className="bg-primary p-2 rounded text-primary-foreground hover:bg-primary/90 transition">
             צור פרוייקט
