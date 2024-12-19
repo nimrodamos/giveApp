@@ -51,6 +51,7 @@ const UserProfile: React.FC = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto bg-card shadow-lg rounded-lg space-y-6">
       {/* User Info Section */}
+      
       <div className="text-center">
         <h1 className="text-3xl font-bold text-primary mb-2">ברוך הבא, {user.username}</h1>
         <p className="text-muted-foreground">Email: {user.email}</p>
