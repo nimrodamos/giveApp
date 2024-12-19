@@ -1,4 +1,6 @@
 const Project = require("../models/Project");
+const { faker } = require("@faker-js/faker");
+const { options } = require("../routes/donationsRoutes");
 
 // Create a new project
 const createProject = async (req, res) => {
@@ -13,11 +15,11 @@ const createProject = async (req, res) => {
   }
 };
 
-// Get all projects with search query parameters
 const getAllProjects = async (req, res) => {
   try {
     const { title, status, owner, category } = req.query;
     const query = {};
+
     if (title) {
       query.title = { $regex: title, $options: "i" };
     }
@@ -29,12 +31,22 @@ const getAllProjects = async (req, res) => {
     }
 
     const projects = await Project.find(query);
-    res.send(projects);
+
+    // Update each project's photo field with a random 500x500 photo
+    const updatedProjects = projects.map((project) => {
+      return {
+        ...project.toObject(), // Convert Mongoose document to plain object
+        image: faker.image.url({ width: 500, height: 500 }),
+      };
+    });
+
+    res.json(updatedProjects);
   } catch (err) {
     res.status(500).send({ error: "Error fetching projects", details: err });
   }
 };
 
+module.exports = { getAllProjects };
 // Get project by ID
 const getProjectById = async (req, res) => {
   try {
@@ -72,7 +84,8 @@ const deleteProjectById = async (req, res) => {
 
 //////////////////////////////////////
 const getUserProjects = async (req, res) => {
-  try {console.log(req.user.id)
+  try {
+    console.log(req.user.id);
     const userId = req.user.id; // Auth middleware provides user ID
     const projects = await Project.find({ creator_id: userId });
     res.status(200).json({ projects });
