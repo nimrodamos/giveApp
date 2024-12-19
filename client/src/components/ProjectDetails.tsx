@@ -16,7 +16,8 @@ const ProjectDetails = ({ project, onDonateClick }: ProjectDetailsProps) => (
       {/* Progress Bar */}
       <div>
         <div className="flex justify-between text-sm font-semibold mb-1">
-          <span>₪{project.current_amount}</span>
+          <span>{project.current_amount}₪</span>
+
           <span>
             {Math.round((project.current_amount / project.goal) * 100)}%
           </span>
@@ -30,7 +31,7 @@ const ProjectDetails = ({ project, onDonateClick }: ProjectDetailsProps) => (
           ></div>
         </div>
       </div>
-
+      <span>{`יעד: ${project.goal}₪`}</span>
       {/* End Date */}
       <p className="text-sm text-muted-foreground">
         תאריך יעד: {new Date(project.endDate).toLocaleDateString("he-IL")}
