@@ -60,7 +60,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const fetchProjects = async () => {
     setIsLoading(true);
     try {
-      const response = await api.get("projects");
+      const response = await api.get(`projects`);
       setProjects(response.data);
     } catch (error) {
       console.error("Failed to fetch projects:", error);

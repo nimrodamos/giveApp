@@ -11,6 +11,7 @@ import ProjectIntro from "./pages/ProjectIntro";
 import { UserProvider } from "./components/context/userContext";
 import { Toaster } from "./components/ui/toaster";
 import { ProjectProvider } from "./components/context/projectContext";
+import FiltersBar from "./components/FiltersBar";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <ProjectProvider>
           <Router>
             <Navbar /> {/* תפריט ניווט קבוע */}
+            <FiltersBar />
             <Routes>
               {/* דף הבית */}
               <Route path="/" element={<HomePage />} />

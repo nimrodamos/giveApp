@@ -4,17 +4,23 @@ import { useEffect } from "react";
 import { api } from "@/api";
 import { useState } from "react";
 import { Project } from "@/types/projectTypes";
+import { useLocation } from "react-router-dom";
 
 const AllProjectsPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get("category");
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const res = await api.get("projects", { withCredentials: true });
+      const res = await api.get(`projects?category=${category || ""}`, {
+        withCredentials: true,
+      });
       setProjects(res.data);
     };
     fetchProjects();
-  }, []);
+  }, [category]);
 
   return (
     <div className="p-6">

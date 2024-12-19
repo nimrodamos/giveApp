@@ -37,7 +37,6 @@ function authUser(req, res, next) {
     }
 
     req.user = decoded.user;
-    console.log("authUser says: request by user:", decoded.user);
 
     next();
   } catch (error) {
