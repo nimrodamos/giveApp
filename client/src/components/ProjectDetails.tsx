@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { FiFacebook, FiMail, FiTwitter } from "react-icons/fi";
 import { Project } from "@/types/projectTypes";
+import { Slider } from "@/components/ui/slider";
 
 interface ProjectDetailsProps {
   project: Project;
@@ -22,19 +23,22 @@ const ProjectDetails = ({ project, onDonateClick }: ProjectDetailsProps) => (
             {Math.round((project.current_amount / project.goal) * 100)}%
           </span>
         </div>
-        <div className="relative w-full bg-muted rounded-full h-3">
-          <div
-            className="bg-primary h-3 rounded-full"
-            style={{
-              width: `${(project.current_amount / project.goal) * 100}%`,
-            }}
-          ></div>
+        <div className="relative w-full bg-muted rounded-full h-3 mb-1">
+          <Slider
+            value={[project.current_amount]}
+            max={project.goal}
+            className="w-full h-4"
+            aria-label="Money Collected"
+            disabled
+            inverted
+            asChild
+          />
         </div>
       </div>
       <span>{`יעד: ${project.goal}₪`}</span>
       {/* End Date */}
       <p className="text-sm text-muted-foreground">
-        תאריך יעד: {new Date(project.endDate).toLocaleDateString("he-IL")}
+        תאריך יעד: {new Date(project.end_date).toLocaleDateString("he-IL")}
       </p>
 
       {/* כפתור תרומה */}
