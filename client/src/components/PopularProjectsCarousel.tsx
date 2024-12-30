@@ -15,11 +15,11 @@ const PopularProjectsCarousel = () => {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    // Fetch projects on mount
     const fetchData = async () => {
       try {
         const res = await api.get("projects/popular");
-        setProjects(res.data);
+        console.log("Response data:", res.data);
+        setProjects(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
         console.error("Failed to fetch projects:", error);
       }
