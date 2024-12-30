@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 
 const CarouselProject = () => {
-  const { projects, fetchProjects, isLoading } = useProject();
+  const { projects, fetchProjects } = useProject();
 
   // Fetch projects from context
   useEffect(() => {

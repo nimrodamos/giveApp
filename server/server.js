@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const usersRoutes = require("./routes/usersRoutes");
 const projectsRoutes = require("./routes/projectsRoutes");
@@ -11,7 +12,7 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 
 dotenv.config();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.static("public"));
 app.use(cookieParser());
 app.use("/users", usersRoutes);
 app.use("/projects", projectsRoutes);
@@ -39,3 +41,7 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to the database:", error);
   });
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});

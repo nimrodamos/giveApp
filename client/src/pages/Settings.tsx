@@ -18,12 +18,12 @@ const Settings = () => {
   });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await api.put(`/users/${user?._id}`, formData, {
@@ -48,7 +48,10 @@ const Settings = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto bg-card shadow-lg rounded-lg space-y-6 text-center">
       <h1 className="text-3xl font-bold text-primary mb-4">הגדרות משתמש</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 p-4 border border-border rounded-lg shadow-md mx-auto text-black">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 p-4 border border-border rounded-lg shadow-md mx-auto text-black"
+      >
         {/* Username */}
         <div>
           <label className="block text-foreground font-medium">שם משתמש</label>
@@ -123,7 +126,9 @@ const Settings = () => {
 
         {/* Profile Picture */}
         <div>
-          <label className="block text-foreground font-medium">תמונת פרופיל</label>
+          <label className="block text-foreground font-medium">
+            תמונת פרופיל
+          </label>
           <div className="flex flex-col items-center space-y-4">
             <img
               src={formData.profilePic || "https://via.placeholder.com/150"}
@@ -152,7 +157,6 @@ const Settings = () => {
       </form>
     </div>
   );
-
 };
 
 export default Settings;

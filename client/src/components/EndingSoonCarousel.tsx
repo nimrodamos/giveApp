@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 
 const EndingSoonCarousel = () => {
-  const { projects, fetchProjects, isLoading } = useProject();
+  const { projects, fetchProjects } = useProject();
 
   useEffect(() => {
     // Fetch projects on mount

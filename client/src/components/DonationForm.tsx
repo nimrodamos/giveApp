@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/components/context/userContext";
 
 interface DonationFormProps {
   onSuccess: () => void; // פונקציה שתופעל לאחר השליחה המוצלחת
@@ -8,7 +7,6 @@ interface DonationFormProps {
 }
 
 const DonationForm = ({ onSuccess, submitDonation }: DonationFormProps) => {
-  const { user } = useUser();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",

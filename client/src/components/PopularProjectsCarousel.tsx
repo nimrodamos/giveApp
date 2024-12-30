@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useProject } from "./context/projectContext";
 import CardProject from "@/components/CardProject";
 import {
   Carousel,

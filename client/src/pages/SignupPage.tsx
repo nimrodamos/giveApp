@@ -21,7 +21,6 @@ function SignupPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await api.post("users/register", formData);
       console.log(formData);
       const { email, password } = formData;
       const res = await api.post(
@@ -77,7 +76,9 @@ function SignupPage() {
                 />
               </div>
               <div>
-                <label className="block text-foreground font-medium">Email</label>
+                <label className="block text-foreground font-medium">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -131,7 +132,6 @@ function SignupPage() {
       </div>
     </div>
   );
-
 }
 
 export default SignupPage;
