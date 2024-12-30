@@ -24,7 +24,7 @@ const CarouselProject = () => {
       }
     };
     fetchData();
-  }, [fetchProjects]); // Ensure fetchProjects doesn't change on each render
+  }, []); // Ensure fetchProjects doesn't change on each render
 
   return (
     <div className="relative p-6 rounded-lg shadow-lg max-w-7xl mx-auto">

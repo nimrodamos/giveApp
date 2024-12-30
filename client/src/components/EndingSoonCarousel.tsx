@@ -23,7 +23,7 @@ const EndingSoonCarousel = () => {
       }
     };
     fetchData();
-  }, [fetchProjects]);
+  }, []);
 
   // Filter projects that are in their last week
   const endingSoonProjects = projects.filter((project) => {
